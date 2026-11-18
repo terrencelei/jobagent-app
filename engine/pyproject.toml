@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jobagent"
+version = "0.1.0"
+description = "JobAgent engine: job discovery, ranking and application queue for students of any major."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "sqlalchemy>=2.0.0",
+    "pydantic>=2.0.0",
+    "typer>=0.12.0",
+    "fastapi>=0.110.0",
+    "uvicorn>=0.28.0",
+    "httpx>=0.27.0",
+    "beautifulsoup4>=4.12.0",
+    "apscheduler>=3.10.0",
+    "pyyaml>=6.0.0",
+    "jinja2>=3.1.0",
+    "rich>=13.0.0",
+    "pypdf>=4.0.0",
+    "reportlab>=4.0.0",
+    "python-docx>=1.1.0",
+    "keyring>=25.0.0",
+    "platformdirs>=4.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+]
+# Meta, Google and Microsoft publish no usable job API, so their listings are read from a
+# rendered page. Without this the browser sources are skipped and the rest of discovery runs.
+browser = [
+    "playwright>=1.40.0",
+]
+
+[project.scripts]
+jobagent = "jobagent.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"jobagent.services" = ["data/*.json"]

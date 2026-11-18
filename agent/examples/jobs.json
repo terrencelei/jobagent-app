@@ -1,0 +1,19 @@
+[
+  {
+    "id": "example-mechanical-2027",
+    "company": "Example Company",
+    "title": "Mechanical Engineer, New Graduate",
+    "url": "https://example.com/jobs/mechanical-2027",
+    "country": "US",
+    "salary": {
+      "min": 95000,
+      "max": 110000,
+      "currency": "USD",
+      "period": "year"
+    },
+    "startDate": "2027-06-21",
+    "sourceUrl": "https://example.com/jobs/mechanical-2027",
+    "scrapedAt": "2026-09-18T00:00:00Z",
+    "sourceEligibility": "STRONG_MATCH"
+  }
+]

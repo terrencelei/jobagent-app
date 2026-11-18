@@ -1,0 +1,16 @@
+# Placeholder until Setup writes config/tracks.yaml: one track per search the student defines.
+tracks:
+  general:
+    label: All roles
+    major: ''
+    degree_override: []
+    on_titles: []
+    off_titles: []
+    clusters:
+    - GENERAL
+    target_roles: []
+    preferred_title_terms: []
+    industries: []
+    reviewer_fits: the roles the student chose in Setup
+    reviewer_other: roles unrelated to them
+    discovery_titles: ''

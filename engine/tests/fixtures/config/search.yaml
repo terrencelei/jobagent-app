@@ -1,0 +1,387 @@
+# Search configuration for JobAgent
+
+# Curated public job lists. Repo names/categories do not establish eligibility:
+# leads without employer requirements go to Needs Review, using the saved profile.
+github_sources:
+  - repository: SimplifyJobs/New-Grad-Positions
+    ref: dev
+    path: .github/scripts/listings.json
+    format: simplify_json
+    max_jobs: 1000
+  - repository: TrakkerHQ/hardware-jobs
+    ref: main
+    path: README.md
+    format: markdown
+    max_jobs: 250
+  - repository: zapplyjobs/New-Grad-Hardware-Engineering-Jobs-2027
+    ref: main
+    path: README.md
+    format: markdown
+    max_jobs: 500
+    resolve_redirect_hosts: [zapply.jobs, www.zapply.jobs]
+
+cadence:
+  # Search continuously: start a full scan every 15 minutes (or right after a longer one ends).
+  discovery_interval_minutes: 15
+  high_priority_verify_hours: 4
+  normal_verify_hours: 12
+  old_verify_days: 1
+  request_delay_seconds: 1.0
+  max_concurrent_requests_per_domain: 2
+
+query_templates:
+  role_titles:
+    - "Mechanical Engineer"
+    - "Mechanical Design Engineer"
+    - "Product Design Engineer"
+    - "Product Engineer"
+    - "Hardware Engineer"
+    - "Robotics Engineer"
+    - "Mechatronics Engineer"
+    - "Manufacturing Engineer"
+    - "Manufacturing Equipment Engineer"
+    - "Test Engineer"
+    - "Hardware Test Engineer"
+    - "Systems Engineer"
+    - "Automation Engineer"
+    - "Controls Engineer"
+    - "Electromechanical Engineer"
+    - "Vehicle Engineer"
+    - "Aerospace Engineer"
+    - "Structures Engineer"
+    - "Integration Engineer"
+    - "Reliability Engineer"
+    - "NPI Engineer"
+    - "Process Engineer"
+    - "Equipment Engineer"
+    - "R&D Engineer"
+    - "Technical Program Manager"
+    - "Associate Technical Program Manager"
+    # Statistics & data science track
+    - "Data Scientist"
+    - "Data Analyst"
+    - "Statistician"
+    - "Analytics Engineer"
+    - "Machine Learning Engineer"
+    - "Quantitative Analyst"
+
+  early_career_qualifiers:
+    - "New Grad"
+    - "University Graduate"
+    - "University Hire"
+    - "Entry Level"
+    - "Early Career"
+    - "Associate"
+    - "Engineer I"
+    - "Level 1"
+    - "2027 New Grad"
+    - "2027 University Graduate"
+    - "Summer 2027"
+    - "Class of 2027"
+    - "June 2027"
+
+target_companies:
+  # Greenhouse boards
+  greenhouse:
+    - name: "Anduril"
+      board_token: "andurilindustries"
+    - name: "Icarus"
+      board_token: "icarus"
+    - name: "SpaceX"
+      board_token: "spacex"
+    - name: "Zipline"
+      board_token: "flyzipline"
+    - name: "Waymo"
+      board_token: "waymo"
+    - name: "Lucid Motors"
+      board_token: "lucidmotors"
+    - name: "Verkada"
+      board_token: "verkada"
+    - name: "Relativity Space"
+      board_token: "relativity"
+    - name: "Formlabs"
+      board_token: "formlabs"
+    - name: "Nuro"
+      board_token: "nuro"
+    - name: "Mach Industries"
+      board_token: "machindustries"
+    - name: "Varda Space"
+      board_token: "vardaspace"
+    - name: "Figure AI"
+      board_token: "figureai"
+    - name: "Kodiak Robotics"
+      board_token: "kodiak"
+    - name: "Rocket Lab"
+      board_token: "rocketlab"
+    - name: "Vast Space"
+      board_token: "vast"
+    - name: "Astranis"
+      board_token: "astranis"
+    - name: "Muon Space"
+      board_token: "muonspace"
+    - name: "Planet Labs"
+      board_token: "planetlabs"
+    - name: "Ursa Major"
+      board_token: "ursamajor"
+    - name: "Chaos Industries"
+      board_token: "chaosindustries"
+    - name: "Agility Robotics"
+      board_token: "agilityrobotics"
+    - name: "Apptronik"
+      board_token: "apptronik"
+    - name: "Epirus"
+      board_token: "epirus"
+    - name: "Sila Nanotechnologies"
+      board_token: "silananotechnologies"
+    - name: "Neuralink"
+      board_token: "neuralink"
+    - name: "Outrider"
+      board_token: "outrider"
+    - name: "Apex Space"
+      board_token: "apex"
+
+    - name: "Anthropic"
+      board_token: "anthropic"
+    - name: "xAI"
+      board_token: "xai"
+    - name: "Scale AI"
+      board_token: "scaleai"
+    - name: "Tenstorrent"
+      board_token: "tenstorrent"
+    - name: "Lightmatter"
+      board_token: "lightmatter"
+    - name: "Path Robotics"
+      board_token: "pathrobotics"
+    - name: "Nimble Robotics"
+      board_token: "nimblerobotics"
+    - name: "Diligent Robotics"
+      board_token: "diligentrobotics"
+    - name: "Carbon Robotics"
+      board_token: "carbonrobotics"
+    - name: "Locus Robotics"
+      board_token: "locusrobotics"
+    - name: "Wing"
+      board_token: "wing"
+    - name: "Markforged"
+      board_token: "markforged"
+    - name: "Peloton"
+      board_token: "peloton"
+    - name: "Oura"
+      board_token: "oura"
+
+  # Lever boards
+  lever:
+    - name: "Zoox"
+      company_slug: "zoox"
+    - name: "Palantir"
+      company_slug: "palantir"
+    - name: "Hermeus"
+      company_slug: "hermeus"
+    - name: "Shield AI"
+      company_slug: "shieldai"
+    - name: "Commonwealth Fusion"
+      company_slug: "cfsenergy"
+    - name: "Dexterity"
+      company_slug: "dexterity"
+
+    - name: "Bright Machines"
+      company_slug: "brightmachines"
+    - name: "Whoop"
+      company_slug: "whoop"
+    - name: "Velo3D"
+      company_slug: "velo3d"
+
+  # Ashby boards
+  ashby:
+    - name: "Applied Intuition"
+      company_slug: "applied"
+    - name: "Skydio"
+      company_slug: "skydio"
+    - name: "Eight Sleep"
+      company_slug: "eightsleep"
+    - name: "Astra"
+      company_slug: "astra"
+    - name: "Impulse Space"
+      company_slug: "impulse"
+    - name: "Aven"
+      company_slug: "aven"
+    - name: "Saronic"
+      company_slug: "saronic"
+    - name: "Crusoe Energy"
+      company_slug: "crusoe"
+    - name: "Helion Energy"
+      company_slug: "helion"
+    - name: "Standard Bots"
+      company_slug: "standardbots"
+    - name: "Twelve"
+      company_slug: "twelve"
+
+    - name: "OpenAI"
+      company_slug: "openai"
+    - name: "Physical Intelligence"
+      company_slug: "physicalintelligence"
+    - name: "1X Technologies"
+      company_slug: "1x"
+    - name: "Serve Robotics"
+      company_slug: "serverobotics"
+    - name: "Cerebras"
+      company_slug: "cerebras"
+
+  # Workday / Direct Career pages
+  workday_or_direct:
+    - name: "Tesla"
+      career_url: "https://www.tesla.com/careers"
+      ats_type: "tesla"
+    - name: "Apple"
+      career_url: "https://jobs.apple.com"
+      ats_type: "apple"
+    - name: "Applied Materials"
+      career_url: "https://appliedmaterials.wd1.myworkdayjobs.com/Applied_Materials_Careers"
+      ats_type: "workday"
+    - name: "Northrop Grumman"
+      career_url: "https://northropgrumman.wd1.myworkdayjobs.com/NG_Careers"
+      ats_type: "workday"
+    - name: "Boeing"
+      career_url: "https://boeing.wd1.myworkdayjobs.com/EXTERNAL_CAREERS"
+      ats_type: "workday"
+    - name: "Boston Dynamics"
+      career_url: "https://bostondynamics.wd1.myworkdayjobs.com/Boston_Dynamics"
+      ats_type: "workday"
+    - name: "NVIDIA"
+      career_url: "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite"
+      ats_type: "workday"
+    - name: "Joby Aviation"
+      career_url: "https://jobyaviation.com/careers"
+      ats_type: "direct"
+    - name: "Rivian"
+      career_url: "https://careers.rivian.com"
+      ats_type: "direct"
+
+  # Preserve the Automation Genesis keyword and United States filter.
+  siemens:
+    - name: "Siemens"
+      career_url: "https://jobs.siemens.com/en_US/externaljobs/SearchJobs/Automation%20Genesis?42386=%5B812209%5D&42386_format=17546&listFilterMode=1&folderRecordsPerPage=6&"
+      ats_type: "siemens"
+    # Siemens' other early-career tracks (Power Protection and Automation Engineering, Smart
+    # Infrastructure LDPs, Mobility, Commercial Project Management) never match "Automation Genesis".
+    # Same United States filter as above.
+    - name: "Siemens"
+      career_url: "https://jobs.siemens.com/en_US/externaljobs/SearchJobs/Development%20Program?42386=%5B812209%5D&42386_format=17546&listFilterMode=1&folderRecordsPerPage=6&"
+      ats_type: "siemens"
+    - name: "Siemens"
+      career_url: "https://jobs.siemens.com/en_US/externaljobs/SearchJobs/Leadership%20Development?42386=%5B812209%5D&42386_format=17546&listFilterMode=1&folderRecordsPerPage=6&"
+      ats_type: "siemens"
+    - name: "Siemens"
+      career_url: "https://jobs.siemens.com/en_US/externaljobs/SearchJobs/Project%20Management?42386=%5B812209%5D&42386_format=17546&listFilterMode=1&folderRecordsPerPage=6&"
+      ats_type: "siemens"
+
+  # Amazon publishes no hosted board but answers a JSON search endpoint.
+  amazon:
+    - name: "Amazon"
+      career_url: "https://www.amazon.jobs"
+      ats_type: "amazon"
+
+  # Career sites that only render under JavaScript. No public API exists for these:
+  # Google's documented endpoint answers 404, Microsoft's certificate does not validate
+  # outside a browser, and Meta's is GraphQL behind its own app.
+  browser:
+    - name: "Meta"
+      career_url: "https://www.metacareers.com/jobs?q={query}"
+      ats_type: "browser"
+    - name: "Google"
+      career_url: "https://www.google.com/about/careers/applications/jobs/results?q={query}"
+      ats_type: "browser"
+    - name: "Microsoft"
+      career_url: "https://apply.careers.microsoft.com/careers?query={query}"
+      ats_type: "browser"
+
+locations:
+  preferred_locations:
+    - "San Francisco Bay Area"
+    - "Bay Area"
+    - "San Francisco, CA"
+    - "San Jose, CA"
+    - "Santa Clara, CA"
+    - "Sunnyvale, CA"
+    - "Palo Alto, CA"
+    - "Mountain View, CA"
+    - "Fremont, CA"
+    - "Los Angeles, CA"
+    - "Hawthorne, CA"
+    - "El Segundo, CA"
+    - "Long Beach, CA"
+    - "San Diego, CA"
+    - "Seattle, WA"
+    - "Redmond, WA"
+    - "Austin, TX"
+    - "New York, NY"
+    - "Boston, MA"
+    - "Cambridge, MA"
+
+  acceptable_locations:
+    - "United States"
+    - "Remote"
+    - "Hybrid"
+    - "Any US Location"
+
+  excluded_locations: []
+  remote_allowed: true
+  relocation_allowed: true
+
+# Indeed, read through the Indeed app's job-search API (discovery/indeed.py). Indeed's web pages
+# block automated browsers; the app endpoint answers JSON. Only postings whose apply link is the
+# employer's own page are kept. Indeed's search syntax: quotes, OR, parentheses, -word to exclude.
+# How often this runs, how many results per query and the posting age window are dashboard
+# settings under "Indeed search".
+indeed:
+  location: "United States"
+  resolve_redirect_hosts: [grnh.se]
+  queries:
+    # Mechanical Engineering track
+    - 'mechanical engineer ("new grad" OR "new graduate" OR "entry level" OR "early career" OR "engineer I" OR associate)'
+    - '("mechanical design engineer" OR "product design engineer" OR "design engineer") -senior -principal -staff -lead'
+    - '(robotics OR mechatronics) engineer -senior -principal -staff -lead -software'
+    - '("manufacturing engineer" OR "process engineer" OR "equipment engineer") ("new grad" OR "entry level" OR "engineer I" OR associate)'
+    - '("test engineer" OR "reliability engineer" OR "hardware engineer") ("new grad" OR "entry level" OR "early career" OR "engineer I")'
+    - '(aerospace OR propulsion OR structures OR thermal) engineer ("new grad" OR "entry level" OR "early career" OR "engineer I")'
+    - '("controls engineer" OR "automation engineer" OR "systems engineer") ("new grad" OR "entry level" OR "engineer I" OR associate)'
+    - '"technical program manager" (associate OR "new grad" OR "entry level" OR "early career")'
+    # Statistics & Data Science track
+    - '"data scientist" ("new grad" OR "new graduate" OR "entry level" OR "early career" OR associate OR junior)'
+    - '("data analyst" OR "analytics engineer" OR "business intelligence analyst") ("new grad" OR "entry level" OR junior OR associate)'
+    - '(statistician OR "quantitative analyst" OR "machine learning engineer") ("new grad" OR "entry level" OR "early career" OR junior)'
+
+# LinkedIn's public (signed-out) job search (discovery/linkedin.py). Each result is a lead (company,
+# title, location): the posting is then found on Indeed's app API, which carries the employer's
+# apply link, or by the web-search agent. LinkedIn keyword syntax: quotes, OR, NOT, parentheses.
+# How often this runs, results per query and the agent-search cap are settings under "LinkedIn search".
+linkedin:
+  location: "United States"
+  queries:
+    # Mechanical Engineering track
+    - 'mechanical engineer new grad'
+    - 'mechanical engineer "early career"'
+    - '"mechanical design engineer" OR "product design engineer" "entry level"'
+    - 'robotics engineer OR mechatronics engineer "entry level" NOT senior'
+    - 'manufacturing engineer OR "process engineer" new grad'
+    - '"test engineer" OR "hardware engineer" new grad'
+    - 'aerospace engineer OR propulsion engineer "early career"'
+    - '"technical program manager" associate OR "new grad"'
+    # Statistics & Data Science track
+    - '"data scientist" new grad OR "entry level"'
+    - '"data analyst" OR "analytics engineer" "entry level"'
+    - '"machine learning engineer" OR statistician new grad'
+
+# sign in once with `jobagent handshake-login`). Plain keyword searches; each result that applies on
+# the employer's site is kept, the rest are leads resolved on Indeed or by the web-search agent.
+handshake:
+  school: 'utexas'
+  queries:
+    - 'mechanical engineer'
+    - 'mechanical design engineer'
+    - 'manufacturing engineer'
+    - 'robotics engineer'
+    - 'test engineer'
+    - 'aerospace engineer'
+    - 'data scientist'
+    - 'data analyst'

@@ -1,0 +1,12 @@
+{
+  "fields": [
+    {"key":"firstName","type":"text","selector":"#first_name"},
+    {"key":"lastName","type":"text","selector":"#last_name"},
+    {"key":"email","type":"text","selector":"#email"},
+    {"key":"gpa","type":"combobox","selector":"#gpa","selectedSelector":"#gpa-field .select__single-value"},
+    {"key":"rocketClub","type":"checkbox","selector":"#rocket-club"}
+  ],
+  "resume": {"selector":"#resume", "uploadedSelector":"#resume-upload-status"},
+  "submitSelector": "button[type=submit]",
+  "confirmation": {"urlIncludes":"/confirmation", "text":"Your application has been received"}
+}

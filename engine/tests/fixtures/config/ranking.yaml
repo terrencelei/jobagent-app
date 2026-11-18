@@ -1,0 +1,374 @@
+# Ranking and Scoring Configuration for JobAgent
+
+weights:
+  semantic_role_match: 25.0
+  technical_skill_match: 20.0
+  experience_match: 20.0
+  industry_match: 10.0
+  early_career_fit: 10.0
+  role_preference: 5.0
+  location_preference: 5.0
+  company_preference: 5.0
+
+priority_formula:
+  relevance_weight: 0.75
+  urgency_weight: 0.25
+  focus_title_boost: 15.0
+
+early_career_boost:
+  keywords:
+    - "2027 new grad"
+    - "2027 university graduate"
+    - "2027 university hire"
+    - "class of 2027"
+    - "summer 2027"
+    - "june 2027"
+    - "university graduate"
+    - "university hire"
+    - "new grad"
+    - "entry level"
+    - "early career"
+    - "associate engineer"
+    - "engineer i"
+    - "level 1"
+    - "rotational engineer"
+  boost_points: 15.0
+
+# robotics over defense, aerospace and automotive, so the company-preference component
+# ranks by sector rather than by a flat list of names. Points are out of the
+# weights.company_preference maximum.
+company_preference:
+  default_points: 3.0
+  sectors:
+    tech_and_robotics:
+      points: 5.0
+      priority_boost: 12.0
+      companies:
+        - "openai"
+        - "anthropic"
+        - "xai"
+        - "scale"
+        - "meta"
+        - "google"
+        - "apple"
+        - "amazon"
+        - "microsoft"
+        - "nvidia"
+        - "figure"
+        - "boston dynamics"
+        - "bostondynamics"
+        - "physical intelligence"
+        - "1x"
+        - "agility robotics"
+        - "apptronik"
+        - "dexterity"
+        - "standard bots"
+        - "path robotics"
+        - "nimble"
+        - "diligent"
+        - "carbon robotics"
+        - "locus robotics"
+        - "serve robotics"
+        - "bright machines"
+        - "skydio"
+        - "applied intuition"
+        - "waymo"
+        - "zoox"
+        - "nuro"
+        - "kodiak"
+        - "wing"
+        - "eight sleep"
+        - "whoop"
+        - "oura"
+        - "peloton"
+        - "sonos"
+        - "verkada"
+        - "formlabs"
+        - "markforged"
+        - "velo3d"
+        - "cerebras"
+        - "graphcore"
+        - "tenstorrent"
+        - "lightmatter"
+        - "neuralink"
+        - "jumio"
+        - "collaborative robotics"
+        - "cobot"
+        - "dyna robotics"
+        - "sunday"
+        - "skild ai"
+        - "mentee robotics"
+        - "foundation robotics"
+        - "samsung"
+        - "bose"
+        - "logitech"
+        - "gopro"
+        - "dyson"
+        - "hp iq"
+        - "hpiq"
+        - "zipline"
+        - "rhoda ai"
+        - "standardbots"
+        - "doordash"
+        - "snap"
+        - "bytedance"
+        - "intel"
+        - "amd"
+        - "qualcomm"
+        - "sony"
+        - "garmin"
+        - "cisco"
+        - "marvell"
+        - "arista"
+    defense_aerospace_automotive:
+      points: 1.5
+      companies:
+        - "anduril"
+        - "spacex"
+        - "shield ai"
+        - "hermeus"
+        - "relativity"
+        - "rocket lab"
+        - "vast"
+        - "astranis"
+        - "muon"
+        - "varda"
+        - "impulse"
+        - "apex"
+        - "ursa major"
+        - "epirus"
+        - "chaos industries"
+        - "saronic"
+        - "mach industries"
+        - "boeing"
+        - "northrop"
+        - "kbr"
+        - "raytheon"
+        - "lockheed"
+        - "blue origin"
+        - "tesla"
+        - "rivian"
+        - "lucid"
+        - "joby"
+        - "planet labs"
+        - "sierra space"
+        - "commonwealth fusion"
+
+penalties:
+  senior_title_penalty: 45.0
+  start_date_conflict_penalty: 35.0
+  unsupported_clearance_penalty: 40.0
+  non_relocatable_unpreferred_location: 10.0
+  outside_us_penalty: 50.0
+  salary_below_threshold_penalty: 30.0
+  off_discipline_title_penalty: 40.0
+  experience_mismatch_penalty: 35.0
+
+start_date_rules:
+  candidate_available_date: "2027-06-16"
+  candidate_graduation: "June 2027"
+  unknown_start_date_is_neutral: true
+  school_year_posting_without_start_date_is_valid: true
+  immediate_start_keywords:
+    - "immediate start"
+    - "start immediately"
+    - "available immediately"
+    - "immediate opening"
+    - "start date: january"
+    - "start date: february"
+    - "start date: march"
+    - "start date: fall 2026"
+    - "start date: winter 2027"
+    - "start date: spring 2027"
+  target_start_keywords:
+    - "summer 2027"
+    - "june 2027"
+    - "july 2027"
+    - "august 2027"
+    - "fall 2027"
+    - "2027 graduate"
+    - "2027 university graduate"
+    - "december 2026 and june 2027"
+    - "december 2026 - june 2027"
+    - "winter 2026/2027 through spring/summer 2027"
+
+career_clusters:
+  - id: "PRODUCT_MECHANICAL_DESIGN"
+    name: "PRODUCT / MECHANICAL DESIGN"
+    keywords:
+      - "product design"
+      - "mechanical design"
+      - "enclosure"
+      - "packaging"
+      - "plastic injection molding"
+      - "sheet metal"
+      - "solidworks"
+      - "nx"
+      - "creo"
+      - "cad"
+      - "gd&t"
+      - "tolerance analysis"
+      - "prototyping"
+      - "mechanism"
+      - "kinematics"
+      - "dfm"
+      - "dfa"
+      - "consumer electronics"
+
+  - id: "ROBOTICS_MECHATRONICS"
+    name: "ROBOTICS / MECHATRONICS"
+    keywords:
+      - "robotics"
+      - "mechatronics"
+      - "actuator"
+      - "motor"
+      - "encoder"
+      - "embedded"
+      - "ros"
+      - "robotic arm"
+      - "autonomous"
+      - "computer vision"
+      - "sensor integration"
+      - "path planning"
+      - "motion control"
+      - "electromechanical"
+
+  - id: "HARDWARE_SYSTEMS"
+    name: "HARDWARE / SYSTEMS"
+    keywords:
+      - "hardware engineer"
+      - "systems engineer"
+      - "system integration"
+      - "pcb"
+      - "circuits"
+      - "power electronics"
+      - "sensor"
+      - "avionics"
+      - "interconnect"
+      - "payload"
+      - "instrumentation"
+      - "hardware development"
+
+  - id: "MANUFACTURING_EQUIPMENT_AUTOMATION"
+    name: "MANUFACTURING / EQUIPMENT / AUTOMATION"
+    keywords:
+      - "manufacturing engineer"
+      - "equipment engineer"
+      - "automation engineer"
+      - "semiconductor equipment"
+      - "tooling"
+      - "fixture"
+      - "npi"
+      - "process engineer"
+      - "assembly"
+      - "plc"
+      - "industrial automation"
+      - "yield"
+      - "line bring-up"
+      - "factory"
+
+  - id: "AEROSPACE_VEHICLE"
+    name: "AEROSPACE / VEHICLE"
+    keywords:
+      - "aerospace"
+      - "structures"
+      - "propulsion"
+      - "spacecraft"
+      - "satellite"
+      - "rocket"
+      - "flight hardware"
+      - "composite"
+      - "fea"
+      - "ansys"
+      - "vehicle dynamics"
+      - "chassis"
+      - "thermal"
+      - "vibration"
+
+  - id: "TECHNICAL_PROGRAM_MANAGEMENT"
+    name: "TECHNICAL PROGRAM MANAGEMENT"
+    keywords:
+      - "technical program manager"
+      - "technical project manager"
+      - "tpm"
+      - "product development"
+      - "schedule"
+      - "cross-functional"
+      - "npi program"
+      - "hardware program"
+      - "vendor management"
+      - "risk management"
+
+  - id: "DATA_ENGINEERING_ANALYTICS"
+    name: "DATA / ENGINEERING ANALYTICS"
+    keywords:
+      - "data analysis"
+      - "test data"
+      - "sql"
+      - "python"
+      - "pandas"
+      - "statistical modeling"
+      - "regression"
+      - "classification"
+      - "failure analysis"
+      - "machine learning"
+      - "rcca"
+      - "root cause"
+      - "predictive"
+
+  # Statistics & Data Science track (config/tracks.yaml) — scored only when that track is active.
+  - id: "DATA_SCIENCE_ML"
+    name: "DATA SCIENCE / MACHINE LEARNING"
+    keywords:
+      - "data scientist"
+      - "data science"
+      - "machine learning"
+      - "predictive model"
+      - "modeling"
+      - "classification"
+      - "regression"
+      - "pytorch"
+      - "scikit-learn"
+      - "feature engineering"
+      - "experimentation"
+
+  - id: "ANALYTICS_BI"
+    name: "ANALYTICS / BUSINESS INTELLIGENCE"
+    keywords:
+      - "data analyst"
+      - "analytics"
+      - "business intelligence"
+      - "dashboard"
+      - "tableau"
+      - "power bi"
+      - "sql"
+      - "reporting"
+      - "kpi"
+      - "insights"
+
+  - id: "STATISTICS_QUANT"
+    name: "STATISTICS / QUANTITATIVE RESEARCH"
+    keywords:
+      - "statistician"
+      - "statistics"
+      - "statistical"
+      - "biostatistics"
+      - "quantitative"
+      - "a/b test"
+      - "hypothesis testing"
+      - "causal inference"
+      - "bayesian"
+      - "forecasting"
+      - "econometric"
+
+  - id: "DATA_ENGINEERING_ANALYTICS_ENG"
+    name: "DATA ENGINEERING / ANALYTICS ENGINEERING"
+    keywords:
+      - "analytics engineer"
+      - "data engineer"
+      - "data pipeline"
+      - "etl"
+      - "dbt"
+      - "data warehouse"
+      - "spark"
+      - "airflow"

@@ -1,0 +1,35 @@
+# Placeholder until Setup (/setup) writes config/profile.yaml for the student.
+candidate:
+  name: ''
+  email: ''
+  phone: ''
+  location: ''
+  citizenship: ''
+  work_authorization: ''
+  requires_sponsorship: false
+  target_start_date: ''
+  available_during_school_year: false
+  relocation_allowed: true
+  salary_threshold_annual: 0
+  seeking_role_type: full-time
+  max_required_experience_years: 2
+  highest_degree: bachelor
+  acceptable_degree_fields: []
+  target_locations: []
+  remote_ok: true
+  location_strict: false
+education:
+  institution: ''
+  degree: ''
+  majors: []
+  expected_graduation: ''
+  graduation_date: '2027-06-15'
+  gpa: ''
+  coursework: []
+experience: []
+projects: []
+skills:
+  programming:
+    explicit: []
+  engineering:
+    explicit: []

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Needs help · JobAgent</title>
+  <link rel="stylesheet" href="applications.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    textarea, input, select, button { font: inherit; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    main { max-width: 1400px; margin: 0 auto; padding: 24px 16px 40px; }
+    header { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
+    h1 { font-size: 26px; margin: 0; }
+    a { color: var(--accent); }
+    .lede { color: var(--muted); font-size: 14px; margin: 6px 0 0; max-width: 760px; }
+    .layout { display: grid; grid-template-columns: minmax(260px, 340px) minmax(0, 1fr); gap: 18px; align-items: start; }
+    @media (max-width: 860px) { .layout { grid-template-columns: 1fr; } }
+    .list { display: flex; flex-direction: column; gap: 8px; }
+    .list-column { min-width: 0; }
+    #bulkBar { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding: 8px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+    #bulkBar[hidden] { display: none; }
+    #bulkBar label { display: flex; align-items: center; gap: 10px; margin-right: auto; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .pick-row { display: flex; align-items: center; gap: 10px; }
+    .pick-row .problem { flex: 1; min-width: 0; }
+    .pick, #bulkAll { width: 17px; height: 17px; flex: none; accent-color: var(--accent); cursor: pointer; }
+    .problem { text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; color: inherit; cursor: pointer; width: 100%; }
+    .problem[aria-current="true"] { border-color: var(--accent); background: rgba(127,178,255,.14); }
+    .problem strong { display: block; font-size: 14px; overflow-wrap: anywhere; }
+    .problem span { display: block; font-size: 12px; color: var(--muted); margin-top: 3px; overflow-wrap: anywhere; }
+    .tag { display: block; font-size: 12px; padding: 0; background: none; color: var(--attention); margin-top: 6px; }
+    .tag.busy { color: var(--accent); }
+    .detail { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; min-width: 0; }
+    .detail h2 { font-size: 18px; margin: 0; }
+    .meta { color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .reason { margin: 12px 0 0; padding: 10px 12px; border-radius: 9px; background: var(--raised); font-size: 14px; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; align-items: center; }
+    details { margin-top: 12px; }
+    summary { cursor: pointer; color: var(--muted); font-size: 13px; }
+    .shot { display: block; max-width: 100%; max-height: 520px; margin-top: 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--raised); }
+    .chat { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 14px; }
+    .log { display: flex; flex-direction: column; gap: 10px; max-height: 58vh; overflow: auto; padding-right: 4px; }
+    .msg { max-width: 85%; padding: 10px 13px; border-radius: 12px; font-size: 14px; line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .msg.user { align-self: flex-end; background: var(--accent); color: #fff; }
+    .msg.user code { background: rgba(255,255,255,.18); color: #fff; }
+    .msg.agent { align-self: flex-start; background: var(--raised); }
+    .msg.activity { align-self: flex-start; background: none; color: var(--faint); font-size: 12px; padding: 0 4px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .msg.error { align-self: flex-start; background: rgba(240,128,122,.16); color: var(--bad); }
+    .msg code { background: var(--bg); padding: 1px 5px; border-radius: 5px; font-size: 13px; }
+    .compose { display: flex; gap: 8px; margin-top: 12px; align-items: flex-end; }
+    .compose textarea { flex: 1; min-height: 46px; max-height: 200px; resize: vertical; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--bg); color: var(--text); padding: 10px; }
+    .suggest { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+    .thinking { color: var(--accent); font-size: 13px; }
+    .repair-control { display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:12px 0 18px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:10px }
+    .repair-control label { display:flex;align-items:center;gap:9px;font-weight:600 }
+    .repair-control input { width:18px;height:18px;accent-color:var(--accent) }
+    .diagnosis { margin:12px 0;padding:12px;background:var(--raised);border:1px solid var(--line);border-radius:10px }
+    .diagnosis p { margin:6px 0 0;color:var(--muted);font-size:13px;white-space:pre-wrap }
+    .empty { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <script>
+    // Shown inside the dashboard's panel: the dashboard supplies Close, and its own links stay in the top window.
+    if (window.self !== window.top) {
+      document.documentElement.classList.add('embedded');
+      document.addEventListener('click', event => {
+        const link = event.target.closest('a[href="/#applications"], a[href="/"]');
+        if (!link) return;
+        event.preventDefault();
+        window.parent.postMessage({jobagent: link.getAttribute('href') === '/' ? 'close-panel' : 'open-applications'}, location.origin);
+      });
+    }
+  </script>
+
+  <main>
+    <header>
+      <div>
+        <h1>Needs help</h1>
+        <p class="lede">Each posting is diagnosed from its saved failure and application evidence. When a safe technical fix is verified, the agent can repair the application code and requeue that posting. Verification, missing facts, and uncertain submissions stay with you.</p>
+      </div>
+      <div class="row" style="margin:0"><a class="app-button" href="/approvals" style="text-decoration:none">Approvals</a><a class="app-button" href="/#applications" style="text-decoration:none">← Application Agent</a></div>
+    </header>
+    <section class="repair-control" aria-label="Automatic repair controls">
+      <label><input id="autoRepairToggle" type="checkbox" checked> Auto diagnose and fix</label>
+      <span id="autoRepairState" class="meta">Technical issues are diagnosed and repaired in the background, even while application workers are stopped.</span>
+    </section>
+    <div id="notice" class="app-notice" role="status" hidden></div>
+    <div class="layout">
+      <div class="list-column">
+      <div id="bulkBar" hidden role="toolbar" aria-label="Actions for selected postings">
+        <label><input type="checkbox" id="bulkAll"> <span id="bulkCount">Select all</span></label>
+        <button id="bulkRetry" class="app-button small" type="button" disabled>Retry</button>
+        <button id="bulkDelete" class="app-button small danger" type="button" disabled>Delete</button>
+      </div>
+      <nav class="list" id="list" aria-label="Postings that need help"><p class="empty">Loading…</p></nav>
+      </div>
+      <section class="detail" id="detail" aria-live="polite"><p class="empty">Choose a posting on the left.</p></section>
+    </div>
+  </main>
+  <script src="feedback.js"></script>
+  <script src="help.js"></script>
+</body>
+</html>

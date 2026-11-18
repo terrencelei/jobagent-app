@@ -1,0 +1,55 @@
+# Shipped ranking defaults. Setup writes config/ranking.yaml with the student's own career clusters
+# (one per target role) and dream companies; every number here can also be tuned in Settings.
+weights:
+  semantic_role_match: 25.0
+  technical_skill_match: 20.0
+  experience_match: 20.0
+  industry_match: 10.0
+  early_career_fit: 10.0
+  role_preference: 5.0
+  location_preference: 5.0
+  company_preference: 5.0
+priority_formula:
+  relevance_weight: 0.75
+  urgency_weight: 0.25
+  focus_title_boost: 10.0
+early_career_boost:
+  keywords:
+  - university graduate
+  - university hire
+  - new grad
+  - entry level
+  - early career
+  - associate engineer
+  - engineer i
+  - level 1
+  - rotational engineer
+  - graduate program
+  - entry-level
+  - junior
+  - associate
+  boost_points: 15.0
+company_preference:
+  default_points: 3.0
+  sectors: {}
+penalties:
+  senior_title_penalty: 45.0
+  start_date_conflict_penalty: 35.0
+  unsupported_clearance_penalty: 40.0
+  non_relocatable_unpreferred_location: 10.0
+  outside_us_penalty: 50.0
+  salary_below_threshold_penalty: 30.0
+  off_discipline_title_penalty: 40.0
+  experience_mismatch_penalty: 35.0
+start_date_rules:
+  unknown_start_date_is_neutral: true
+  school_year_posting_without_start_date_is_valid: true
+  immediate_start_keywords:
+  - immediate start
+  - start immediately
+  - available immediately
+  - immediate opening
+career_clusters:
+- id: GENERAL
+  name: GENERAL
+  keywords: []

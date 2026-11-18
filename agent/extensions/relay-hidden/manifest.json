@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Relay hCaptcha Worker",
+  "version": "1.0.0",
+  "description": "Answers hCaptcha puzzles in the hand-off Chrome through the local Relay panel (/api/hidden_captcha, vendor/captcha-solver/hidden_captcha.js).",
+  "permissions": ["debugger"],
+  "host_permissions": ["<all_urls>"],
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [
+    {
+      "matches": ["https://*.hcaptcha.com/*", "https://hcaptcha.com/*"],
+      "js": ["frame.js"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ]
+}

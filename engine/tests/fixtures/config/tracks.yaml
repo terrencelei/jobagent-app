@@ -1,0 +1,50 @@
+# Job-search tracks. Each track judges every posting on its own, with the same method:
+# a posting's title must belong to the track's discipline (unless its degree lines name the
+# track's major), it is filed under one of the track's disciplines, scored with the track's
+# role/industry terms, and read by the reviewer against the track's focus. The dashboard toggle
+# picks which track is shown and which one autoplay applies to.
+#
+# The rule tuner (services/rule_tuner.py) may override on_titles, off_titles and degree_override
+# per track in config/learned_rules.yaml; this file stays as the hand-written baseline.
+tracks:
+  mechanical:
+    label: "Mechanical Engineering"
+    major: "Mechanical Engineering"
+    degree_override: ['mechanical', '\bbsme\b', '\bmechatronic']
+    on_titles: ['mechanic', 'mechatronic', 'electro-?mechanical', 'robotic', 'manufactur', 'product\s+design\s+engineer', 'actuator', 'mechanism', 'thermal']
+    off_titles:
+      - {label: "electrical engineering", pattern: '\belectrical\b|\bpower\s+(?:systems?|electronics)\b|\bsubstation\b|\bswitchgear\b|\bprotection\s+and\s+controls\b|\belectronics?\s+engineer'}
+      - {label: "software engineering", pattern: '\bsoftware\b|\bdeveloper\b|\bfull[ -]?stack\b|\bfront[ -]?end\b|\bback[ -]?end\b|\bfirmware\b|\bdevops\b|\bsite\s+reliability\b|\bforward\s+deployed\b|\binfrastructure\s+engineer'}
+      - {label: "electrical/chip design", pattern: '\bsilicon\b|\basic\b|\bfpga\b|\bvlsi\b|\b(?:analog|digital)\s+(?:design|ic)\b|\brf\s+engineer|\bpcb\b'}
+      - {label: "IT, networking or security", pattern: '\bsystems?\s+administrator\b|\bnetwork\s+(?:engineer|administrator)\b|\bit\s+(?:support|specialist|engineer)\b|\btechnical\s+support\b|\bhelp\s*desk\b|\bcyber\s*security\b|\bsecurity\s+engineer'}
+      - {label: "a non-engineering function", pattern: '\bsales\b|\baccount\s+(?:executive|manager)\b|\bmarketing\b|\brecruit(?:er|ing)\b|\bdeployment\s+strategist\b|\bprivacy\b|\bconsultant\b'}
+      - {label: "UX/visual design", pattern: '\b(?:ux|ui|visual|graphic|interaction)\s+designer\b|\bproduct\s+designer\b'}
+      - {label: "another engineering discipline", pattern: '\bchemical\s+engineer|\bcivil\s+engineer|\bnuclear\s+engineer|\bbiomedical\s+engineer|\bradiation\b|\bprocess\s+safety\b'}
+      - {label: "data science or analytics (the other track)", pattern: '\bdata\s+scien|\bdata\s+analyst|\bstatistician\b|\bbusiness\s+(?:intelligence|analyst)\b|\bmachine\s+learning\b|\bml\s+engineer|\bquantitative\s+analyst|\banalytics\s+engineer|\bdata\s+engineer'}
+    clusters: ["PRODUCT / MECHANICAL DESIGN", "HARDWARE / SYSTEMS", "MANUFACTURING / EQUIPMENT / AUTOMATION", "AEROSPACE / VEHICLE", "ROBOTICS / MECHATRONICS", "DATA / ENGINEERING ANALYTICS", "TECHNICAL PROGRAM MANAGEMENT"]
+    target_roles: ["mechanical", "product design", "hardware", "robotics", "mechatronics", "systems", "manufacturing", "test", "automation", "controls", "electromechanical", "aerospace", "structures", "tpm", "program manager", "thermal", "process engineer", "equipment engineer", "actuator", "mechanism", "development engineer", "enclosure", "r&d", "design engineer"]
+    preferred_title_terms: ["product design", "mechanical", "robotics"]
+    industries: ["consumer electronics", "robotics", "semiconductor", "aerospace", "space", "automotive", "ev", "autonomous vehicles", "advanced manufacturing", "industrial automation", "hardware startup", "ai hardware", "medical devices"]
+    reviewer_fits: "mechanical, product/mechanical design, robotics, mechatronics, manufacturing, test, hardware systems, aerospace, technical program management and engineering data/reliability analysis"
+    reviewer_other: "electrical, software, chip design, IT, sales, UX, civil, chemical, nuclear, and data science/analytics roles (those belong to his other search track)"
+    discovery_titles: 'mechanical|electromechanical|mechatronics|robotics?|hardware|manufacturing|thermal|propulsion|structures?|structural|aerospace|avionics|actuator|automation|controls?|test|reliability|equipment|process|systems?|product design|product development|integration|validation|tooling|GNC|dynamics|CFD|CAE|CAD|NPI|optomechanical'
+
+  data:
+    label: "Statistics & Data Science"
+    major: "Statistics and Data Science"
+    degree_override: ['statistic', 'data\s+science', 'biostatistic']
+    on_titles: ['\bdata\b(?!\s+cent(?:er|re))', 'analytics?', 'analyst', 'statistic', 'machine\s+learning', '\bml\b', 'quantitative', 'decision\s+scien', 'business\s+intelligence', 'insights', 'biostat', 'econometric', 'forecast']
+    off_titles:
+      - {label: "mechanical/hardware engineering (the other track)", pattern: '\bmechanical\b|\bmechatronic|\brobotic|\bmanufactur|\bhardware\b|\baerospace\b|\bpropulsion\b|\bstructur|\btest\s+engineer|\bdesign\s+engineer|\bprocess\s+engineer|\bequipment\s+engineer|\bsystems\s+engineer|\bengineer\b|\btechnician\b|\bprogram\s+manager\b'}
+      - {label: "software engineering", pattern: '\bsoftware\b|\bdeveloper\b|\bfull[ -]?stack\b|\bfront[ -]?end\b|\bback[ -]?end\b|\bfirmware\b|\bdevops\b|\bsite\s+reliability\b'}
+      - {label: "electrical/chip design", pattern: '\belectrical\b|\bsilicon\b|\basic\b|\bfpga\b|\bvlsi\b|\bpcb\b'}
+      - {label: "IT, networking or security", pattern: '\bsystems?\s+administrator\b|\bnetwork\s+(?:engineer|administrator)\b|\bit\s+(?:support|specialist)\b|\btechnical\s+support\b|\bhelp\s*desk\b|\bcyber\s*security\b'}
+      - {label: "a non-technical function", pattern: '\bsales\b|\baccount\s+(?:executive|manager)\b|\bmarketing\s+(?:coordinator|manager|specialist)\b|\brecruit(?:er|ing)\b|\bdeployment\s+strategist\b|\bprivacy\b'}
+      - {label: "UX/visual design", pattern: '\b(?:ux|ui|visual|graphic|interaction)\s+designer\b|\bproduct\s+designer\b'}
+    clusters: ["DATA SCIENCE / MACHINE LEARNING", "ANALYTICS / BUSINESS INTELLIGENCE", "STATISTICS / QUANTITATIVE RESEARCH", "DATA ENGINEERING / ANALYTICS ENGINEERING"]
+    target_roles: ["data science", "data scientist", "data analysis", "data analyst", "analytics", "statistics", "statistical", "machine learning", "modeling", "forecasting", "experimentation", "a/b test", "regression", "quantitative", "insights", "business intelligence", "dashboard", "sql", "python", "data pipeline", "causal", "bayesian"]
+    preferred_title_terms: ["data scien", "statistic", "analytics"]
+    industries: ["consumer electronics", "robotics", "semiconductor", "aerospace", "space", "automotive", "ev", "autonomous vehicles", "advanced manufacturing", "ai hardware", "medical devices", "e-commerce", "fintech", "healthcare", "sports"]
+    reviewer_fits: "data science, statistics, analytics, machine learning and predictive modeling, business intelligence, quantitative research and analytics engineering"
+    reviewer_other: "mechanical/hardware engineering (his other search track), pure software engineering, electrical, IT, sales and UX roles"
+    discovery_titles: 'data|analyst|analytics|statistic(?:s|al|ian)?|machine learning|quantitative|scientist|business intelligence|insights|forecast'

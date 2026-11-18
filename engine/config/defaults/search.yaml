@@ -1,0 +1,46 @@
+# Shipped search defaults. Setup writes config/search.yaml with queries for the student's roles,
+# their locations, and the employer packs for their industries.
+github_sources:
+- repository: SimplifyJobs/New-Grad-Positions
+  ref: dev
+  path: .github/scripts/listings.json
+  format: simplify_json
+  max_jobs: 1000
+cadence:
+  discovery_interval_minutes: 15
+  high_priority_verify_hours: 4
+  normal_verify_hours: 12
+  old_verify_days: 1
+  request_delay_seconds: 1.0
+  max_concurrent_requests_per_domain: 2
+query_templates:
+  role_titles: []
+  early_career_qualifiers:
+  - New Grad
+  - University Graduate
+  - University Hire
+  - Entry Level
+  - Early Career
+  - Associate
+  - Junior
+target_companies: {}
+locations:
+  preferred_locations: []
+  acceptable_locations:
+  - United States
+  - Remote
+  - Hybrid
+  excluded_locations: []
+  remote_allowed: true
+  relocation_allowed: true
+indeed:
+  location: United States
+  resolve_redirect_hosts:
+  - grnh.se
+  queries: []
+linkedin:
+  location: United States
+  queries: []
+handshake:
+  school: ''
+  queries: []

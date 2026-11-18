@@ -1,0 +1,25 @@
+node_modules/
+.venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+# user data never enters the repo
+engine/data/*
+!engine/data/.gitkeep
+engine/config/profile.yaml
+engine/config/search.yaml
+engine/config/tracks.yaml
+engine/config/learned_rules.yaml
+engine/config/source_overrides.yaml
+agent/private/
+agent/state/
+agent/artifacts/
+.Rhistory

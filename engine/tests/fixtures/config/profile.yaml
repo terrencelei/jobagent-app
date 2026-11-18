@@ -1,0 +1,223 @@
+# Test fixture: a made-up mechanical-engineering student (graduates June 2027).
+candidate:
+  name: Alex Rivera
+  email: alex.rivera@example.edu
+  phone: ''
+  location: Austin, TX
+  citizenship: U.S. Citizen
+  work_authorization: Authorized to work in the US without sponsorship
+  requires_sponsorship: false
+  security_clearance: None (Eligible for U.S. clearance)
+  target_start_date: '2027-06-16'
+  target_season: Summer 2027
+  earliest_start_date: '2027-06-16'
+  available_during_school_year: false
+  relocation_allowed: true
+  salary_threshold_annual: 100000
+  seeking_role_type: full-time-and-internships
+  graduate_study_plan: Considering a master's degree; enrollment, admission, commitment and return-to-school timing are unconfirmed.
+  max_required_experience_years: 3
+  highest_degree: bachelor
+  acceptable_degree_fields:
+  - mechanical
+  - aerospace
+  - aeronautical
+  - astronautical
+  - mechatronics
+  - robotics
+  - manufacturing
+  - industrial
+  - materials
+  - systems engineering
+  - engineering
+  - physics
+  - statistics
+  - data science
+  - applied math
+  linkedin: ''
+  website: ''
+education:
+  institution: University of Texas at Austin (UT Austin)
+  degree: Bachelor of Science
+  majors:
+  - name: Mechanical Engineering
+    specialization:
+    - Dynamic Systems
+    - Control
+    - Robotics
+  - name: Statistics and Data Science
+  expected_graduation: June 2027
+  graduation_date: '2027-06-15'
+  gpa: '3.50'
+  coursework:
+  - Mechanical Design
+  - Mechatronics
+  - Controls
+  - Robotics
+  - Machine Learning
+  - Circuits
+  - Vibrations
+  - Fluids
+  - Thermodynamics
+  - Statistics
+  - Data Science
+  - Regression and Classification
+experience:
+- company: Acme Process Tools
+  title: Technical Project Management Intern
+  start_date: '2026-06-01'
+  end_date: '2026-09-01'
+  is_current: false
+  weight_multiplier: 1.5
+  summary: Technical Project Management Intern work covering mechanism design, actuators, motors, mechanical design,
+    product development, semiconductor equipment, automation, sensors, electromechanical systems, technical project
+    management, cross-functional engineering, design for deployment.
+  signals:
+  - mechanism design
+  - actuators
+  - motors
+  - mechanical design
+  - product development
+  - semiconductor equipment
+  - automation
+  - sensors
+  - electromechanical systems
+  - technical project management
+  - cross-functional engineering
+  - design for deployment
+  - product lifecycle
+  - hardware development
+- company: UT Austin
+  title: Undergraduate Research Assistant
+  start_date: '2026-01-01'
+  end_date: null
+  is_current: true
+  weight_multiplier: 1.3
+  summary: Undergraduate Research Assistant work covering robotics, automation, computer vision, sensors, robotic
+    arms, testing, SQL, data engineering, machine vision, high-throughput automation, software/hardware integration.
+  signals:
+  - robotics
+  - automation
+  - computer vision
+  - sensors
+  - robotic arms
+  - testing
+  - SQL
+  - data engineering
+  - machine vision
+  - high-throughput automation
+  - software/hardware integration
+- company: Orbital Systems Corp
+  title: Mechanical Engineering Intern
+  start_date: '2025-06-01'
+  end_date: '2025-08-31'
+  is_current: false
+  weight_multiplier: 1.25
+  summary: Mechanical Engineering Intern work covering aerospace, mechanical design, test engineering, manufacturing,
+    failure analysis, root-cause analysis, GD&T, tolerance analysis, flight hardware, solar arrays, production engineering,
+    data analysis.
+  signals:
+  - aerospace
+  - mechanical design
+  - test engineering
+  - manufacturing
+  - failure analysis
+  - root-cause analysis
+  - GD&T
+  - tolerance analysis
+  - flight hardware
+  - solar arrays
+  - production engineering
+  - data analysis
+- company: Example Co
+  title: Financial Analyst Intern
+  start_date: '2024-06-01'
+  end_date: '2024-08-31'
+  is_current: false
+  weight_multiplier: 0.6
+  summary: Financial Analyst Intern work covering data analysis, business analysis, operations, financial modeling,
+    process optimization.
+  signals:
+  - data analysis
+  - business analysis
+  - operations
+  - financial modeling
+  - process optimization
+projects:
+- name: Autonomous Delivery Robot
+  role: Lead Systems & Robotics Engineer
+  summary: Lead Systems & Robotics Engineer on a project covering robotics, consumer electronics, product design,
+    mechatronics, embedded systems, autonomous systems, hardware/software integration, system integration, computer
+    vision, path planning, motor control.
+  signals:
+  - robotics
+  - consumer electronics
+  - product design
+  - mechatronics
+  - embedded systems
+  - autonomous systems
+  - hardware/software integration
+  - system integration
+  - computer vision
+  - path planning
+  - motor control
+- name: Student Rocket Team
+  role: Vice President & Lead Engineer
+  summary: Vice President & Lead Engineer on a project covering aerospace, mechanical design, structures, hardware,
+    mechatronics, manufacturing, electronics, systems engineering, technical leadership, FEA, CNC machining, additive
+    manufacturing.
+  signals:
+  - aerospace
+  - mechanical design
+  - structures
+  - hardware
+  - mechatronics
+  - manufacturing
+  - electronics
+  - systems engineering
+  - technical leadership
+  - FEA
+  - CNC machining
+  - additive manufacturing
+  - composites
+skills:
+  programming:
+    explicit:
+    - C/C++
+    - Java
+    - Python
+    - SQL
+    - HTML/CSS
+    - R
+    - MATLAB
+    - ROS
+    - Pandas
+    - PyTorch
+    inferred:
+    - Git
+    - Linux/Bash
+    - OpenCV
+    - NumPy
+  engineering:
+    explicit:
+    - SolidWorks
+    - Fusion 360
+    - Creo
+    - NX
+    - GD&T
+    - ANSYS CFX
+    - MSC Adams
+    - Simulink
+    - LabVIEW
+    - Windchill
+    - Siemens Teamcenter
+    - Excel
+    inferred:
+    - 3D Printing / Additive Manufacturing
+    - Rapid Prototyping
+    - Tolerance Analysis
+    - FEA / Structural Analysis
+    - Mechatronics Prototyping
+    - Sensor Integration
+    - Oscilloscopes / Multimeters
+    - Wiring & Harnesses

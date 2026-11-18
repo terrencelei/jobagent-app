@@ -1,0 +1,15 @@
+{
+  "resumePath": "private/resume.pdf",
+  "policy": {
+    "minimumBaseSalary": 90000,
+    "availableFrom": "2027-06-16",
+    "allowedHosts": ["example.com"]
+  },
+  "answers": {
+    "firstName": "Example",
+    "lastName": "Candidate",
+    "email": "candidate@example.com",
+    "gpa": "3.50",
+    "rocketClub": true
+  }
+}

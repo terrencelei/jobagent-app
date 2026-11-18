@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manual selection · JobAgent</title>
+  <link rel="stylesheet" href="applications.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    main { max-width: 1100px; margin: 0 auto; padding: 28px 16px 60px; }
+    header { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
+    h1 { font-size: 26px; margin: 0; }
+    h2 { margin: 26px 0 10px; font-size: 17px; }
+    a { color: var(--accent); }
+    .lede { color: var(--muted); font-size: 14px; margin: 6px 0 0; max-width: 760px; }
+    .toolbar { display: flex; gap: 12px; flex-wrap: wrap; align-items: end; margin: 18px 0; padding: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+    .toolbar label { flex: 1; min-width: 220px; color: var(--muted); font-size: 12px; }
+    .toolbar input { display: block; width: 100%; margin-top: 5px; padding: 9px; border: 1px solid var(--line-strong); border-radius: 7px; background: var(--raised); color: var(--text); }
+    .company { margin: 10px 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+    .company > summary { padding: 13px 15px; cursor: pointer; color: var(--muted); }
+    .company > summary:hover { color: var(--accent); }
+    .company-info { padding: 0 15px 10px; color: var(--muted); font-size: 13px; }
+    .company-search { display: block; margin: 0 15px 10px; color: var(--muted); font-size: 12px; }
+    .company-search input { display: block; width: 100%; margin-top: 5px; padding: 8px; border: 1px solid var(--line-strong); border-radius: 7px; background: var(--raised); color: var(--text); }
+    .posting-group { padding: 0 12px; }
+    .posting-group h3 { display: flex; justify-content: space-between; align-items: center; margin: 12px 3px 7px; color: var(--muted); font-size: 13px; }
+    .posting-group h3 span { min-width: 24px; padding: 2px 7px; border-radius: 999px; background: var(--raised); color: var(--muted); text-align: center; font-size: 11px; }
+    .posting-list { margin: 0 0 12px; padding: 0; list-style: none; }
+    .posting-list .app-track { align-items: center; }
+    .remove-action { border-color: rgba(240,128,122,.16); color: var(--bad); }
+    .remove-action:hover:not(:disabled) { border-color: var(--bad); background: rgba(240,128,122,.16); }
+    .applied-badge { padding: 4px 9px; border-radius: 999px; background: rgba(95,196,147,.16); color: var(--good); font-size: 12px; white-space: nowrap; }
+    .group-empty { margin: 0 0 12px; padding: 12px; }
+    .posting-error { display: block; margin-top: 4px; color: var(--bad); font-size: 13px; }
+    .posting-list a { color: var(--text); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+    .posting-list a:hover { color: var(--accent); }
+    .empty { padding: 22px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: 10px; }
+    @media (max-width: 640px) { main { padding: 16px 8px 40px; } .posting-list .app-track { flex-wrap: wrap; } }
+  </style>
+</head>
+<body>
+  <script>
+    // Shown inside the dashboard panel: the dashboard supplies Close, and links back to it stay in the top window.
+    if (window.self !== window.top) {
+      document.documentElement.classList.add('embedded');
+      document.addEventListener('click', event => {
+        const link = event.target.closest('a[href="/#applications"], a[href="/"]');
+        if (!link) return;
+        event.preventDefault();
+        window.parent.postMessage({jobagent: link.getAttribute('href') === '/' ? 'close-panel' : 'open-applications'}, location.origin);
+      });
+    }
+  </script>
+
+  <main>
+    <header>
+      <div>
+        <h1>Manual application selection</h1>
+        <p class="lede">Autoplay skips companies with an application limit or 5 or more open full-time and internship roles. Add only the postings you want to the application list. Any stated company limit still applies.</p>
+      </div>
+      <nav class="row" style="margin:0">
+        <a class="app-button" href="/">Dashboard</a>
+        <a class="app-button" href="/approvals">Approvals</a>
+        <a class="app-button" href="/#applications">Application Agent</a>
+      </nav>
+    </header>
+    <div id="notice" class="app-notice" role="status" hidden></div>
+    <div class="toolbar">
+      <label>Filter companies<input id="companyFilter" type="search" placeholder="Company name"></label>
+      <div class="meta" id="companyCount">Loading companies…</div>
+    </div>
+    <section id="companies" aria-label="Companies requiring manual role selection"><p class="empty">Loading postings…</p></section>
+  </main>
+  <script src="feedback.js"></script>
+  <script src="manual-selection.js"></script>
+</body>
+</html>

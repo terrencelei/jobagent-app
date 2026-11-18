@@ -1,0 +1,204 @@
+# Employer career sites watched for students whose industries match a pack. Public board tokens only.
+packs:
+  engineering:
+    name: Engineering & hardware
+    industries:
+    - Hardware & robotics
+    - Aerospace & defense
+    - Automotive & EV
+    - Semiconductors
+    - Manufacturing
+    - Energy & climate
+    target_companies:
+      greenhouse:
+      - name: Anduril
+        board_token: andurilindustries
+      - name: Icarus
+        board_token: icarus
+      - name: SpaceX
+        board_token: spacex
+      - name: Zipline
+        board_token: flyzipline
+      - name: Waymo
+        board_token: waymo
+      - name: Lucid Motors
+        board_token: lucidmotors
+      - name: Verkada
+        board_token: verkada
+      - name: Relativity Space
+        board_token: relativity
+      - name: Formlabs
+        board_token: formlabs
+      - name: Nuro
+        board_token: nuro
+      - name: Mach Industries
+        board_token: machindustries
+      - name: Varda Space
+        board_token: vardaspace
+      - name: Figure AI
+        board_token: figureai
+      - name: Kodiak Robotics
+        board_token: kodiak
+      - name: Rocket Lab
+        board_token: rocketlab
+      - name: Vast Space
+        board_token: vast
+      - name: Astranis
+        board_token: astranis
+      - name: Muon Space
+        board_token: muonspace
+      - name: Planet Labs
+        board_token: planetlabs
+      - name: Ursa Major
+        board_token: ursamajor
+      - name: Chaos Industries
+        board_token: chaosindustries
+      - name: Agility Robotics
+        board_token: agilityrobotics
+      - name: Apptronik
+        board_token: apptronik
+      - name: Epirus
+        board_token: epirus
+      - name: Sila Nanotechnologies
+        board_token: silananotechnologies
+      - name: Neuralink
+        board_token: neuralink
+      - name: Outrider
+        board_token: outrider
+      - name: Apex Space
+        board_token: apex
+      - name: Anthropic
+        board_token: anthropic
+      - name: xAI
+        board_token: xai
+      - name: Scale AI
+        board_token: scaleai
+      - name: Tenstorrent
+        board_token: tenstorrent
+      - name: Lightmatter
+        board_token: lightmatter
+      - name: Path Robotics
+        board_token: pathrobotics
+      - name: Nimble Robotics
+        board_token: nimblerobotics
+      - name: Diligent Robotics
+        board_token: diligentrobotics
+      - name: Carbon Robotics
+        board_token: carbonrobotics
+      - name: Locus Robotics
+        board_token: locusrobotics
+      - name: Wing
+        board_token: wing
+      - name: Markforged
+        board_token: markforged
+      - name: Peloton
+        board_token: peloton
+      - name: Oura
+        board_token: oura
+      lever:
+      - name: Zoox
+        company_slug: zoox
+      - name: Palantir
+        company_slug: palantir
+      - name: Hermeus
+        company_slug: hermeus
+      - name: Shield AI
+        company_slug: shieldai
+      - name: Commonwealth Fusion
+        company_slug: cfsenergy
+      - name: Dexterity
+        company_slug: dexterity
+      - name: Bright Machines
+        company_slug: brightmachines
+      - name: Whoop
+        company_slug: whoop
+      - name: Velo3D
+        company_slug: velo3d
+      ashby:
+      - name: Applied Intuition
+        company_slug: applied
+      - name: Skydio
+        company_slug: skydio
+      - name: Eight Sleep
+        company_slug: eightsleep
+      - name: Astra
+        company_slug: astra
+      - name: Impulse Space
+        company_slug: impulse
+      - name: Aven
+        company_slug: aven
+      - name: Saronic
+        company_slug: saronic
+      - name: Crusoe Energy
+        company_slug: crusoe
+      - name: Helion Energy
+        company_slug: helion
+      - name: Standard Bots
+        company_slug: standardbots
+      - name: Twelve
+        company_slug: twelve
+      - name: OpenAI
+        company_slug: openai
+      - name: Physical Intelligence
+        company_slug: physicalintelligence
+      - name: 1X Technologies
+        company_slug: 1x
+      - name: Serve Robotics
+        company_slug: serverobotics
+      - name: Cerebras
+        company_slug: cerebras
+      workday_or_direct:
+      - name: Tesla
+        career_url: https://www.tesla.com/careers
+        ats_type: tesla
+      - name: Apple
+        career_url: https://jobs.apple.com
+        ats_type: apple
+      - name: Applied Materials
+        career_url: https://appliedmaterials.wd1.myworkdayjobs.com/Applied_Materials_Careers
+        ats_type: workday
+      - name: Northrop Grumman
+        career_url: https://northropgrumman.wd1.myworkdayjobs.com/NG_Careers
+        ats_type: workday
+      - name: Boeing
+        career_url: https://boeing.wd1.myworkdayjobs.com/EXTERNAL_CAREERS
+        ats_type: workday
+      - name: Boston Dynamics
+        career_url: https://bostondynamics.wd1.myworkdayjobs.com/Boston_Dynamics
+        ats_type: workday
+      - name: NVIDIA
+        career_url: https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite
+        ats_type: workday
+      - name: Joby Aviation
+        career_url: https://jobyaviation.com/careers
+        ats_type: direct
+      - name: Rivian
+        career_url: https://careers.rivian.com
+        ats_type: direct
+      siemens:
+      - name: Siemens
+        career_url: https://jobs.siemens.com/en_US/externaljobs/SearchJobs/Automation%20Genesis?42386=%5B812209%5D&42386_format=17546&listFilterMode=1&folderRecordsPerPage=6&
+        ats_type: siemens
+      - name: Siemens
+        career_url: https://jobs.siemens.com/en_US/externaljobs/SearchJobs/Development%20Program?42386=%5B812209%5D&42386_format=17546&listFilterMode=1&folderRecordsPerPage=6&
+        ats_type: siemens
+      - name: Siemens
+        career_url: https://jobs.siemens.com/en_US/externaljobs/SearchJobs/Leadership%20Development?42386=%5B812209%5D&42386_format=17546&listFilterMode=1&folderRecordsPerPage=6&
+        ats_type: siemens
+      - name: Siemens
+        career_url: https://jobs.siemens.com/en_US/externaljobs/SearchJobs/Project%20Management?42386=%5B812209%5D&42386_format=17546&listFilterMode=1&folderRecordsPerPage=6&
+        ats_type: siemens
+      amazon:
+      - name: Amazon
+        career_url: https://www.amazon.jobs
+        ats_type: amazon
+      browser:
+      - name: Meta
+        career_url: https://www.metacareers.com/jobs?q={query}
+        ats_type: browser
+      - name: Google
+        career_url: https://www.google.com/about/careers/applications/jobs/results?q={query}
+        ats_type: browser
+      - name: Microsoft
+        career_url: https://apply.careers.microsoft.com/careers?query={query}
+        ats_type: browser

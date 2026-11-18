@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Results · JobAgent</title>
+  <link rel="stylesheet" href="applications.css">
+  <style>
+    *,*::before,*::after{box-sizing:border-box}body{margin:0}
+    main{max-width:1200px;margin:0 auto;padding:28px 24px 60px}
+    h1{font-size:26px;margin:0}.lede{color:var(--muted);font-size:13px;line-height:1.55;max-width:70ch;margin:6px 0 0}
+    #chartCard{margin-top:20px;padding:18px;background:var(--surface);border-radius:var(--r-panel)}
+    #chart{display:block;width:100%;height:auto}
+    #chart text{font-family:inherit;fill:var(--text)}
+    #chart .node-name{font-size:15px}#chart .node-count{font-size:24px;font-weight:700}
+    #chart path{transition:opacity .16s ease-out}#chart path:hover{opacity:.75}
+    #notice{margin-top:16px;color:var(--muted);font-size:13px}
+    table{margin-top:18px;border-collapse:collapse;font-size:13px}td,th{padding:5px 18px 5px 0;text-align:left}th{color:var(--muted);font-weight:500}td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
+  </style>
+</head>
+<body>
+  <script>
+    // Shown inside the dashboard panel: the dashboard supplies Close, and links back to it stay in the top window.
+    if (window.self !== window.top) {
+      document.documentElement.classList.add("embedded");
+      document.addEventListener("click", event => {
+        const link = event.target.closest(`a[href="/#applications"], a[href="/"]`);
+        if (!link) return;
+        event.preventDefault();
+        window.parent.postMessage({jobagent: link.getAttribute("href") === "/" ? "close-panel" : "open-applications"}, location.origin);
+      });
+    }
+  </script>
+  <main>
+    <h1>Results so far</h1>
+    <p class="lede">Where every submitted application stands. Counts come from your application history. A role counts as interviewed once an interview is recorded for it, whatever happened afterwards.</p>
+    <div id="chartCard"><svg id="chart" role="img" aria-labelledby="chartTitle"><title id="chartTitle">Application outcomes</title></svg>
+      <table id="chartTable" aria-label="Application outcomes as numbers"></table></div>
+    <p id="notice" role="status">Loading…</p>
+  </main>
+  <script src="results.js"></script>
+</body>
+</html>
