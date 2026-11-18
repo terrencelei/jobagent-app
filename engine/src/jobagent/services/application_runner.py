@@ -1214,7 +1214,7 @@ class ApplicationRunner:
         # queue keeps moving and a slow probe does not leave the reading stale (2026-10-19).
         usage = getattr(self, '_usage_result', None)
         self._usage_result = None
-        last = getattr(self, '_usage_checked', 0)
+        last = getattr(self, '_usage_checked', float('-inf'))  # never checked yet, however recently the machine booted
         probing = getattr(self, '_usage_thread', None)
         if usage is None and time.monotonic() - last >= self.USAGE_PROBE_SECONDS and not (probing and probing.is_alive()):
             self._usage_checked = time.monotonic()

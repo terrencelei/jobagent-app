@@ -111,7 +111,7 @@ def test_usage_pause_stops_new_applications_at_his_limit_and_resumes_after_reset
     runner.data['running'] = True
 
     def check():  # The probe runs on its own thread; its reading applies on the next tick.
-        runner._usage_checked = 0
+        runner._usage_checked = float('-inf')
         runner._usage_pause()
         if getattr(runner, '_usage_thread', None):
             runner._usage_thread.join()
