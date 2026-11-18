@@ -5,7 +5,7 @@ changes or model requests are involved. The redemption UUID is persisted before
 sending it so a timeout and concurrent workers cannot spend multiple resets.
 """
 from contextlib import AbstractContextManager
-import fcntl
+from ..filelock import lock_exclusive
 import hashlib
 import json
 import os
@@ -143,7 +143,7 @@ def try_weekly_reset(state_dir, command, *, rpc_factory=CodexRPC):
     path = directory/'codex-earned-resets.json'
     lock_fd = os.open(directory/'codex-earned-resets.lock',os.O_CREAT|os.O_RDWR,0o600)
     with os.fdopen(lock_fd,'a') as lock:
-        fcntl.flock(lock,fcntl.LOCK_EX)
+        lock_exclusive(lock)
         try:
             try:
                 ledger = json.loads(path.read_text())

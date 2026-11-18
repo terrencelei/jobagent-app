@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JobAgent: engineering roles</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:wght@500;600;700&display=swap">
+  <link rel="stylesheet" href="applications.css?v=30336cf03b98">
+  <style>
+    .hidden { display: none !important; }
+    header > div:last-child { flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+    #statsBar { display: flex; }
+    @media (max-width: 1200px) { #statsBar { display: none; } }
+    #autoPerformance { margin: 18px 24px 0; padding: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; }
+    #autoPerformanceHead { display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px }
+    #autoPerformance h2 { margin:0;font-size:19px }
+    #performancePeriods { display:flex;gap:8px;flex-wrap:wrap }
+    #performancePeriods button,#performanceMonth { border:1px solid var(--line);background:var(--raised);color:var(--muted);border-radius:10px;padding:8px 13px;font-weight:600 }
+    #performancePeriods button[aria-pressed="true"] { background:var(--accent);border-color:var(--accent);color:white }
+    #performanceMonth { margin-left:8px;padding:8px; }
+    #performanceMetrics { display:grid;grid-template-columns:repeat(3,minmax(150px,1fr));gap:14px }
+    .performance-card { min-height:118px;padding:18px 20px;background:var(--raised);border-radius:16px }
+    .performance-card span { display:block;color:var(--muted) }
+    .performance-card strong { display:block;margin-top:6px;font-size:34px;line-height:1.15 }
+    .performance-card small { display:block;margin-top:7px;color:var(--muted) }
+    #performanceRate { color:var(--good) }
+    .performance-meter { height:7px;margin-top:12px;background:var(--bg);border-radius:99px;overflow:hidden }
+    #performanceMeterFill { height:100%;width:0;background:var(--good);border-radius:99px;transition:width .25s ease }
+    #agentControls { margin-top:14px;padding:15px 18px;background:var(--bg);border:1px solid var(--line);border-radius:15px }
+    #agentControlsGrid { display:grid;grid-template-columns:minmax(240px,2fr) repeat(2,minmax(145px,1fr)) auto;align-items:end;gap:12px }
+    #agentControls label { display:grid;gap:6px;color:var(--muted);font-size:13px;font-weight:600 }
+    #agentControls select,#agentControls input { width:100%;background:var(--raised);border:1px solid var(--line-strong);border-radius:9px;color:var(--text);padding:9px }
+    #agentControls button { background:var(--accent);border-radius:9px;padding:10px 14px;font-weight:700 }
+    #agentControlStatus,#workerControlStatus { color:var(--muted);font-size:12px;margin-top:9px;min-height:16px }
+    #workerControls { display:grid;grid-template-columns:minmax(220px,1fr) auto;align-items:center;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line) }
+    #workerControls h3 { margin:0;font-size:15px }
+    #workerState { font-weight:700;color:var(--muted) }
+    #workerSummary { margin:4px 0 0;color:var(--muted);font-size:12px }
+    #workerBreakers { grid-column:1/-1;display:grid;gap:8px }
+    #workerBreakers .breaker { display:flex;gap:10px;align-items:center;justify-content:space-between;padding:10px 12px;border:1px solid rgba(240,179,64,.35);background:rgba(240,179,64,.08);border-radius:10px;color:var(--attention);font-size:12px }
+    #workerBreakers .breaker button { background:rgba(240,179,64,.35);flex:none }
+    #workerControlActions { display:flex;gap:8px;flex-wrap:wrap }
+    #workerControlActions button { background:var(--line) }
+    #workerControlActions #workerStart { background:var(--accent) }
+    #workerControlActions #workerStop { background:rgba(240,128,122,.16) }
+    #workerControlActions #workerRetryLimits { background:rgba(240,179,64,.35) }
+    #workerAutoStop { grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(130px,1fr)) auto;align-items:end;gap:10px;margin:4px 0 0;padding:12px;background:var(--surface);border-radius:10px }
+    #workerAutoStop label { display:grid;gap:6px;color:var(--muted);font-size:12px }
+    #workerAutoStop .worker-toggle { display:flex;align-items:center;gap:7px }
+    #workerAutoStop .worker-toggle input { width:auto }
+    #workerAutoStop input[type=number] { width:100%;background:var(--raised);border:1px solid var(--line-strong);border-radius:8px;color:var(--text);padding:8px }
+    #workerAutoStop button { background:var(--line-strong) }
+    #workerAutoStopNote { grid-column:1/-1;margin:0;color:var(--muted);font-size:12px }
+    @media(max-width:760px){#workerControls{grid-template-columns:1fr}#workerControlActions{grid-row:2}#workerAutoStop{grid-template-columns:1fr 1fr}#workerAutoStop button{grid-column:1/-1}}
+    @media(max-width:760px){#agentControlsGrid{grid-template-columns:1fr 1fr}#agentControlsGrid label:first-child{grid-column:1/-1}#agentControlsGrid button{grid-column:1/-1}}
+    @media(max-width:760px){#autoPerformance{margin:12px 8px 0;padding:13px}#performanceMetrics{grid-template-columns:1fr}.performance-card{min-height:88px}.performance-card strong{font-size:29px}}
+    #tabs { display: flex; flex-wrap: wrap; gap: 4px; width: 100%; }
+    #tabs .tab-btn { white-space: nowrap; padding: 9px 14px; border-radius: 8px; color: var(--muted); font-size: 14px; border: 1px solid transparent; }
+    #tabs .tab-btn:hover { background: var(--raised); color: var(--text); }
+    #tabs .tab-btn[aria-pressed="true"] { background: rgba(127,178,255,.14); color: var(--accent); border-color: rgba(127,178,255,.4); }
+    .tab-count { margin-left: 5px; font-size: 12px; opacity: .75; }
+    #moreViews { background: transparent; color: var(--muted); padding: 9px; font-size: 13px; max-width: 240px; }
+    #moreViews option, #moreViews optgroup { background: var(--bg); }
+    .job-card { display: flex; flex-direction: column; }
+    .job-card > div:last-child { margin-top: auto; padding-top: 18px; }
+    @media (max-width: 640px) {
+      header { flex-wrap: wrap; gap: 16px; position: static !important; }
+      #clusterFilter { max-width: 46%; }
+      #tabs .tab-btn { padding: 8px; }
+    }
+    button:disabled { opacity: .45; cursor: not-allowed; }
+    body { background-color: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .badge-strong { background-color: rgba(95,196,147,.16); color: var(--good); }
+    .badge-eligible { background-color: transparent; color: var(--muted); }
+    .badge-conflict { background-color: transparent; color: var(--attention); }
+    .badge-cluster { background-color: transparent; color: var(--accent); }
+  </style>
+  <link rel="stylesheet" href="applications.css?theme=1">
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Header / Navigation -->
+  <header id="siteHeader">
+    <div id="brand">
+      <h1><a id="homeLink" href="/" title="Back to the dashboard with filters cleared" style="color:inherit;text-decoration:none">JobAgent</a></h1>
+      <label id="trackLabel">Search track
+        <select id="trackSelect" aria-label="Job search track">
+          <option value="mechanical">Mechanical Engineering</option>
+          <option value="data">Statistics &amp; Data Science</option>
+        </select>
+      </label>
+    </div>
+
+    <!-- Quick Stats (kept for scripts; the tab counts show the same numbers) -->
+    <div id="statsBar" hidden>
+      <div><div id="statActive">0</div><div>Matching roles</div></div>
+      <div><div id="statApplied">0</div><div>Applied</div></div>
+    </div>
+
+    <nav id="siteNav" aria-label="Dashboard">
+      <a id="rolesNavBtn" href="/" aria-current="page"><i class="fa-solid fa-house"></i>Find roles</a>
+      <button id="applicationsBtn" onclick="openApplications()"><i class="fa-solid fa-bolt"></i>Application Agent</button>
+      <a id="approvalsBtn" href="/approvals" class="hidden"><i class="fa-regular fa-circle-check"></i>Approvals <span id="approvalsCount" class="nav-count"></span></a>
+      <a id="helpBtn" href="/help" class="hidden"><i class="fa-regular fa-life-ring"></i>Needs help <span id="helpCount" class="nav-count"></span></a>
+      <a id="resultsBtn" href="/results"><i class="fa-solid fa-chart-simple"></i>Results</a>
+      <a id="profileBtn" href="/profile"><i class="fa-regular fa-id-card"></i>Profile</a>
+      <details id="moreMenu" open>
+        <summary>More</summary>
+        <div id="moreMenuItems">
+          <a id="manualSelectionBtn" href="/manual-selection"><i class="fa-regular fa-hand-pointer"></i>Manual selection</a>
+          <a id="applicationCostsBtn" href="/costs"><i class="fa-solid fa-coins"></i>Application costs</a>
+          <a id="exportApplicationsBtn" href="/api/applications/export.csv" download="jobagent-application-history.csv" title="Download all recorded application history and current statuses"><i class="fa-solid fa-download"></i>Export applications CSV</a>
+          <button id="sourcesBtn" onclick="openSources()"><i class="fa-solid fa-satellite-dish"></i>Sources &amp; watches</button>
+          <button id="settingsBtn" onclick="openSettings()"><i class="fa-solid fa-gear"></i>Settings</button>
+          <a id="setupBtn" href="/setup"><i class="fa-solid fa-wand-magic-sparkles"></i>Setup</a>
+        </div>
+      </details>
+    </nav>
+
+    <div id="scanControls">
+      <div id="syncStatusBadge">
+        <span class="sync-dot"></span>
+        <span id="syncStatusText">Connecting…</span>
+      </div>
+      <button onclick="triggerSearch()" id="searchBtn">
+        <i class="fa-solid fa-arrows-rotate"></i>
+        <span>Scan Sources</span>
+      </button>
+    </div>
+  </header>
+
+  <section id="autoPerformance" aria-label="Automatic application submission performance">
+    <section id="agentControls" aria-label="Application model and worker controls">
+      <section id="workerControls" aria-label="Application worker controls">
+        <div id="workerStatus"><h2 class="visually-hidden">Application workers</h2><div id="workerState" role="status">Checking worker status…</div><p id="workerSummary">Workers start only when you turn them on.</p><p id="workerControlStatus" role="status"></p></div>
+        <div id="workerControlActions"><button type="button" id="workerStart" data-worker-action="start">Start workers</button><button type="button" id="workerStop" data-worker-action="stop">Stop workers</button><button type="button" id="workerRetryLimits" data-worker-action="retry-limits" hidden>Retry after reset</button></div>
+        <div id="workerBreakers" aria-live="polite" hidden></div>
+      </section>
+      <details id="agentSettingsDetails">
+        <summary>Model, parallel workers and auto-stop limits</summary>
+        <form id="agentSettingsForm">
+          <div id="agentControlsGrid">
+            <label for="agentModel">Application model<select id="agentModel" required><option>Loading available models…</option></select></label>
+            <label for="agentParallelism">Parallel workers<input id="agentParallelism" type="number" min="1" max="10" step="1" value="1" required></label>
+            <label for="agentUsageLimit">Switch at usage limit (%)<input id="agentUsageLimit" type="number" min="0" max="100" step="1" value="80" required></label>
+            <button type="submit">Save agent settings</button>
+          </div>
+          <p id="agentControlStatus" role="status">Starts with Sonnet. Deterministic form rules handle known fields before an agent is called.</p>
+        </form>
+        <form id="workerAutoStop">
+          <label class="worker-toggle"><input id="workerApprovalEnabled" type="checkbox"> Stop at approval limit</label>
+          <label>Needs approval limit<input id="workerApprovalLimit" type="number" min="1" max="10000" step="1" required value="10" disabled></label>
+          <label class="worker-toggle"><input id="workerHelpEnabled" type="checkbox"> Stop at help limit</label>
+          <label>Needs help limit<input id="workerHelpLimit" type="number" min="1" max="10000" step="1" required value="10" disabled></label>
+          <button type="submit">Save auto-stop limits</button>
+        </form>
+        <p id="workerAutoStopNote">When either enabled backlog reaches its limit, all workers stop, including active applications. Clear the backlog or raise the limit before restarting.</p>
+      </details>
+    </section>
+    <div id="performanceBlock">
+      <div id="autoPerformanceHead">
+        <h2>Performance <span id="performancePeriodLabel">(all time)</span></h2>
+        <div>
+          <div id="performancePeriods" role="group" aria-label="Performance period">
+            <button type="button" data-period="all" aria-pressed="true">All time</button>
+            <button type="button" data-period="month" aria-pressed="false">This month</button>
+            <button type="button" data-period="week" aria-pressed="false">This week</button>
+            <button type="button" data-period="today" aria-pressed="false">Today</button>
+            <button type="button" data-period="by-month" aria-pressed="false">By month…</button>
+          </div>
+          <select id="performanceMonth" aria-label="Choose month" hidden></select>
+        </div>
+      </div>
+      <div id="performanceMetrics">
+        <article class="performance-card"><span>Submit rate</span><strong id="performanceRate">—</strong><div class="performance-meter"><div id="performanceMeterFill"></div></div><small id="performanceRateCaption">Verified auto submissions ÷ completed automatic attempts</small></article>
+        <article class="performance-card"><span>Fully automatic submissions</span><strong id="performanceSubmitted">—</strong><small>Employer-confirmed, with no human intervention</small></article>
+        <article class="performance-card"><span>Postings attempted</span><strong id="performanceAttempts">—</strong><small id="performanceOutcomeCaption">Application attempts; dead, duplicate, or ineligible postings skipped before applying are excluded</small></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="applicationPanel" class="hidden" aria-label="Application agent"></section>
+
+  <!-- Approvals and Needs help open over the dashboard, the way the Application Agent does -->
+  <section id="pagePanel" hidden aria-label="Approvals and Needs help">
+    <div class="app-shell">
+      <button type="button" class="app-button" id="pagePanelClose">Close</button>
+      <iframe id="pagePanelFrame" title="Approvals"></iframe>
+    </div>
+  </section>
+
+  <div id="controlsRow">
+   <div id="controlsLeft">
+  <!-- Subheader: Filters and Tabs -->
+  <div class="px-6 py-4 bg-slate-900/60 border-b border-slate-800/80 flex flex-col gap-4 items-start">
+    <!-- Navigation Tabs -->
+    <nav id="tabs" aria-label="Job views">
+      <button onclick="switchTab('top_priority')" data-tab="top_priority" data-count-key="ACTIVE" aria-pressed="true" class="tab-btn">Find roles <span class="tab-count"></span></button>
+      <button onclick="switchTab('saved')" data-tab="saved" data-count-key="SAVED" aria-pressed="false" class="tab-btn">Saved <span class="tab-count"></span></button>
+      <button onclick="switchTab('applied')" data-tab="applied" data-count-key="APPLIED" aria-pressed="false" class="tab-btn">Applied <span class="tab-count"></span></button>
+      <button onclick="switchTab('interview')" data-tab="interview" data-count-key="INTERVIEW" aria-pressed="false" class="tab-btn">Interviews <span class="tab-count"></span></button>
+      <select id="moreViews" aria-label="More job views" onchange="if(this.value) switchTab(this.value)">
+        <option value="">More views</option>
+        <optgroup label="Find roles"><option value="internships">Internships</option><option value="new_today">New in the last 24 hours</option><option value="new_grad">New graduate roles</option><option value="high_match">Highest match (85+)</option></optgroup>
+        <optgroup label="Application history"><option value="offer">Offers</option><option value="rejected">Rejected</option><option value="withdrawn">Withdrawn</option><option value="closed">Closed</option><option value="ignored">Hidden</option></optgroup>
+      </select>
+    </nav>
+    <p id="viewDescription" class="text-sm text-slate-400">Full-time roles that meet your current filters, ranked by fit.</p>
+
+    <!-- Search & Cluster Filters -->
+    <div class="flex items-center space-x-3 w-full md:w-auto">
+      <select id="appliedRange" onchange="loadJobs()" aria-label="Applied within" class="hidden bg-slate-800 border border-slate-700 text-xs rounded-lg px-3 py-2 text-slate-300 focus:outline-none focus:border-cyan-500"><option value="">All time</option><option value="1">Past day</option><option value="7">Past week</option><option value="14">Past 2 weeks</option><option value="30">Past month</option></select>
+      <select id="clusterFilter" onchange="loadJobs()" class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-3 py-2 text-slate-300 focus:outline-none focus:border-cyan-500">
+        <option value="">All disciplines</option>
+        <option value="PRODUCT / MECHANICAL DESIGN">Product / Mechanical Design</option>
+        <option value="ROBOTICS / MECHATRONICS">Robotics / Mechatronics</option>
+        <option value="HARDWARE / SYSTEMS">Hardware / Systems</option>
+        <option value="MANUFACTURING / EQUIPMENT / AUTOMATION">Manufacturing / Automation</option>
+        <option value="AEROSPACE / VEHICLE">Aerospace / Vehicle</option>
+        <option value="TECHNICAL PROGRAM MANAGEMENT">Technical Program Management</option>
+        <option value="DATA / ENGINEERING ANALYTICS">Data / Engineering Analytics</option>
+      </select>
+
+      <details id="companyFilterDropdown" class="relative">
+        <summary id="companyFilterSummary" class="list-none cursor-pointer bg-slate-800 border border-slate-700 text-xs rounded-lg px-3 py-2 text-slate-300">All companies ▾</summary>
+        <div class="absolute right-0 z-30 mt-2 w-72 rounded-lg border border-slate-700 bg-slate-900 p-3 shadow-xl">
+          <p class="text-xs text-slate-300">Choose companies to show and apply for.</p>
+          <input id="companyFilterSearch" type="search" placeholder="Find a company…" aria-label="Find a company" class="mt-2 w-full bg-slate-800 border border-slate-700 rounded px-2 py-1.5 text-xs text-slate-200">
+          <div id="companyFilterOptions" class="mt-2 max-h-60 overflow-y-auto space-y-1 text-xs"></div>
+          <p id="companyFilterStatus" class="mt-2 text-xs text-slate-400"></p>
+          <div class="mt-3 flex gap-2">
+            <button id="applyCompanyFilter" type="button" class="rounded bg-cyan-800 px-3 py-1.5 text-xs text-cyan-100">Apply selection</button>
+            <button id="clearCompanyFilter" type="button" class="rounded bg-slate-700 px-3 py-1.5 text-xs text-slate-200">Show all</button>
+          </div>
+        </div>
+      </details>
+      <details id="stateFilterDropdown" class="relative">
+        <summary id="stateFilterSummary" class="list-none cursor-pointer text-xs px-3 py-2">All locations ▾</summary>
+        <div id="stateFilterPanel">
+          <p>Show roles in these states only.</p>
+          <div id="stateFilterOptions"></div>
+          <div class="state-actions"><button id="clearStateFilter" type="button">Show all locations</button></div>
+        </div>
+      </details>
+      <label id="sortLabel">Sort by
+        <select id="sortSelect" onchange="loadJobs()" aria-label="Sort roles by">
+          <option value="">Best match first</option>
+          <option value="fit">Highest fit</option>
+          <option value="newest">Newest posting</option>
+          <option value="salary">Highest pay</option>
+          <option value="company">Company A to Z</option>
+        </select>
+      </label>
+
+      <div class="relative flex-1 md:w-64">
+        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-slate-500"></i>
+        <input type="text" id="searchInput" oninput="debounceSearch()" placeholder="Filter by role title or company..." class="w-full bg-slate-800 border border-slate-700 text-xs rounded-lg pl-8 pr-3 py-2 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500" />
+      </div>
+      <button id="clearFilters" onclick="clearFilters()" class="hidden text-xs text-cyan-400 whitespace-nowrap">Clear filters</button>
+    </div>
+  </div>
+
+  <p id="lastUpdated" class="text-xs px-6 pt-3 text-slate-400"></p>
+  <details class="px-6 pt-2 text-xs text-slate-400"><summary>Source details</summary><div id="sourceCoverage" class="py-2 whitespace-pre-wrap"></div><div id="sourceErrors" class="text-amber-400 whitespace-pre-wrap"></div><details id="listingIssues" hidden class="mt-2"><summary>Individual listing issues (feed may still be working)</summary><div id="sourceWarnings" class="py-2 whitespace-pre-wrap"></div></details></details>
+  <!-- Main Content Area -->
+   </div>
+   <aside id="assistant" aria-label="Today and assistant" data-phase="loading">
+     <div id="assistantHello" aria-hidden="true">
+       <svg id="helloSvg" viewBox="0 0 600 150" role="presentation"></svg>
+     </div>
+     <div id="assistantBody" hidden>
+       <h2 id="assistantTitle">Today</h2>
+       <div id="assistantTicker">
+         <div id="assistantPrism"><p id="assistantReport" class="prism-face front"></p><p id="assistantReportNext" class="prism-face below" aria-hidden="true"></p></div>
+         <div id="assistantReportCount" aria-hidden="true"></div>
+       </div>
+       <div id="assistantChat" role="log" aria-live="polite" aria-label="Conversation with the assistant"></div>
+       <form id="assistantForm">
+         <input id="assistantInput" type="text" autocomplete="off" maxlength="4000" placeholder="Ask about your search, or ask for something to be done" aria-label="Message the assistant">
+         <button type="submit" id="assistantSend">Send</button>
+         <button type="button" id="assistantNew" hidden title="Start a fresh conversation; the assistant forgets this one">New chat</button>
+       </form>
+     </div>
+   </aside>
+  </div>
+
+  <main class="flex-1 p-6 max-w-7xl mx-auto w-full">
+    <p id="resultCount" class="text-sm mb-3 text-slate-400"></p>
+    <p id="errorState" role="alert" class="hidden text-rose-400"></p>
+    <div id="bulkBar" hidden role="toolbar" aria-label="Actions for selected postings">
+      <label id="bulkAllLabel"><input type="checkbox" id="bulkAll"> <span id="bulkCount">Select all</span></label>
+      <button type="button" id="bulkQueue" disabled>+ Add to queue</button>
+      <button type="button" id="bulkApplied" disabled>Mark as applied</button>
+      <button type="button" id="bulkDelete" disabled>Delete</button>
+      <span id="bulkStatus" role="status"></span>
+    </div>
+    <div id="loading" class="text-center py-20">
+      <div class="inline-block animate-spin text-cyan-400 text-3xl mb-3"><i class="fa-solid fa-spinner"></i></div>
+      <p class="text-sm text-slate-400">Loading verified opportunities...</p>
+    </div>
+
+    <!-- Job Cards Grid -->
+    <div id="jobGrid" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <!-- Cards rendered via JS -->
+    </div>
+
+    <div id="emptyState" class="hidden text-center py-24">
+      <i class="fa-regular fa-folder-open text-4xl text-slate-600 mb-3"></i>
+      <h3 class="text-lg font-semibold text-slate-300">No jobs found in this view</h3>
+      <p class="text-xs text-slate-500 mt-1 max-w-md mx-auto">Clear any search or discipline filters, or select another tab.</p>
+    </div>
+    <button id="loadMore" onclick="loadJobs(true)" class="hidden p-3 my-4 rounded bg-cyan-800">Load more</button>
+  </main>
+
+  <!-- Job Detail Modal Drawer -->
+  <div id="detailModal" class="hidden fixed inset-0 z-50 overflow-hidden bg-black/70 backdrop-blur-sm flex justify-end">
+    <div class="w-full max-w-3xl bg-slate-900 border-l border-slate-800 h-full flex flex-col shadow-2xl">
+      <!-- Modal Header -->
+      <div class="p-6 border-b border-slate-800 flex justify-between items-start bg-slate-900/90">
+        <div>
+          <div class="flex items-center gap-2">
+            <span id="modalCompany" class="text-cyan-400 font-bold uppercase tracking-wider text-sm"></span>
+            <span id="modalAts" class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400"></span>
+          </div>
+          <h2 id="modalTitle" class="text-xl font-bold text-white mt-1"></h2>
+          <div class="flex flex-wrap items-center gap-3 text-xs text-slate-400 mt-2">
+            <span id="modalLocation"><i class="fa-solid fa-location-dot mr-1"></i></span>
+            <span id="modalSalary"><i class="fa-solid fa-dollar-sign mr-1"></i></span>
+            <span id="modalExperience"><i class="fa-solid fa-briefcase mr-1"></i></span>
+            <span id="modalPostingAge"><i class="fa-regular fa-clock mr-1"></i></span>
+          </div>
+        </div>
+        <button onclick="closeModal()" class="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800 text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="flex-1 overflow-y-auto p-6 space-y-6">
+        <!-- Priority & Scores Banner -->
+        <div class="grid grid-cols-4 gap-3 bg-slate-800/60 p-4 rounded-xl border border-slate-800">
+          <div class="text-center">
+            <div class="text-xs text-slate-400 uppercase">Priority</div>
+            <div id="modalPriority" class="text-2xl font-bold text-cyan-400"></div>
+          </div>
+          <div class="text-center">
+            <div class="text-xs text-slate-400 uppercase">Relevance</div>
+            <div id="modalRelevance" class="text-2xl font-bold text-blue-400"></div>
+          </div>
+          <div class="text-center">
+            <div class="text-xs text-slate-400 uppercase">Urgency</div>
+            <div id="modalUrgency" class="text-2xl font-bold text-amber-400"></div>
+          </div>
+          <div class="text-center">
+            <div class="text-xs text-slate-400 uppercase">Eligibility</div>
+            <div id="modalEligibilityBadge" class="text-sm font-bold mt-1"></div>
+          </div>
+        </div>
+
+        <!-- Career Cluster & Start Date Analysis -->
+        <div class="space-y-3">
+          <h3 class="drawer-heading">Career cluster fit</h3>
+          <div id="modalClusterBars" class="space-y-2 text-xs"></div>
+        </div>
+
+        <!-- Eligibility Analysis -->
+        <div class="space-y-2">
+          <h3 class="drawer-heading">Eligibility and start-date reasoning</h3>
+          <div id="modalEligibilityReasons" class="bg-slate-800/40 rounded-lg p-3 text-xs text-slate-300 space-y-1.5 border border-slate-800"></div>
+        </div>
+
+        <!-- His call on fit: overrides the rules and the reviewer, and teaches the reviewer -->
+        <div class="space-y-2">
+          <h3 class="drawer-heading">Your call on fit</h3>
+          <div id="modalReview" class="bg-slate-800/40 rounded-lg p-3 text-xs text-slate-300 whitespace-pre-wrap border border-slate-800"></div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button id="btnFitYes" type="button" class="px-3 py-1.5 rounded-lg text-xs bg-emerald-800 hover:bg-emerald-700 aria-pressed:ring-2 aria-pressed:ring-emerald-300">Good fit</button>
+            <button id="btnFitNo" type="button" class="px-3 py-1.5 rounded-lg text-xs bg-rose-800 hover:bg-rose-700 aria-pressed:ring-2 aria-pressed:ring-rose-300">Not a fit</button>
+            <button id="btnFitClear" type="button" class="px-3 py-1.5 rounded-lg text-xs bg-slate-800 hover:bg-slate-700">Clear</button>
+            <input id="fitLabelNote" type="text" maxlength="1000" aria-label="Why (optional)" placeholder="Why? (optional, e.g. software dev building Adams, not using it)" class="flex-1 min-w-[12rem] bg-slate-800 border border-slate-700 text-xs rounded-lg px-3 py-1.5 text-slate-200 placeholder-slate-500">
+          </div>
+          <p id="fitLabelState" class="text-xs text-slate-400"></p>
+          <p id="labelAgreement" class="text-xs text-slate-500"></p>
+          <p id="ruleTuning" class="text-xs text-slate-500"></p>
+        </div>
+
+        <details class="text-xs text-slate-400">
+          <summary>Why this fit score?</summary>
+          <div id="modalFitExplanation" class="whitespace-pre-wrap pt-3 leading-relaxed"></div>
+        </details>
+        <!-- Matching Experience & Skills -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <h3 class="drawer-heading">Matching experience</h3>
+            <div id="modalExpMatch" class="space-y-1 text-xs" style="color:#166534"></div>
+          </div>
+          <div>
+            <h3 class="drawer-heading">Matching skills</h3>
+            <div id="modalSkillsMatch" class="flex flex-wrap gap-1.5 text-xs"></div>
+          </div>
+        </div>
+
+        <!-- Application Package & Draft Cover Letter -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center">
+            <h3 class="drawer-heading">Tailored cover letter draft</h3>
+            <button onclick="copyCoverLetter()" class="text-xs text-cyan-400 hover:underline"><i class="fa-regular fa-copy mr-1"></i>Copy Draft</button>
+          </div>
+          <textarea id="modalCoverLetter" readonly class="w-full h-44 bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs text-slate-300 font-mono leading-relaxed focus:outline-none"></textarea>
+        </div>
+
+        <!-- Full Job Description -->
+        <div class="space-y-2">
+          <h3 class="drawer-heading">Full job description</h3>
+          <div id="modalDesc" class="border border-slate-800/80 rounded-lg p-4 text-xs text-slate-300 max-h-72 overflow-y-auto whitespace-pre-wrap leading-relaxed"></div>
+        </div>
+      </div>
+
+      <div class="px-4 py-2 flex gap-2 items-center">
+        <label for="statusSelect">Status</label><select id="statusSelect" class="bg-slate-800 p-2 rounded"><option value="NEW">New</option><option value="ACTIVE">Active</option><option value="SAVED">Saved</option><option value="APPLIED">Applied</option><option value="INTERVIEW">Interview</option><option value="OFFER">Offer</option><option value="REJECTED">Rejected</option><option value="WITHDRAWN">Withdrawn</option><option value="CLOSED">Closed</option><option value="IGNORED">Ignored</option></select>
+        <button id="btnStatus" onclick="updateCurrentJobStatus(document.getElementById('statusSelect').value)" class="p-2 bg-cyan-800 rounded">Update status</button>
+        <button id="btnNotes" onclick="updateCurrentJobStatus(activeJob.status)" class="p-2 bg-slate-800 rounded">Save notes</button>
+      </div>
+      <!-- Modal Footer Actions -->
+      <div class="p-4 border-t border-slate-800 bg-slate-900 flex flex-wrap gap-3 justify-between items-center">
+        <div class="flex space-x-2">
+          <button id="btnSave" onclick="updateCurrentJobStatus('SAVED')" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium transition"><i class="fa-regular fa-bookmark mr-1"></i>Save</button>
+          <button id="btnIgnore" onclick="updateCurrentJobStatus('IGNORED')" class="px-3 py-2 bg-slate-800 hover:bg-rose-900/40 text-rose-400 rounded-lg text-xs font-medium transition"><i class="fa-regular fa-eye-slash mr-1"></i>Ignore</button>
+          <button id="btnInterview" onclick="updateCurrentJobStatus('INTERVIEW')" class="px-3 py-2 bg-slate-800 hover:bg-indigo-900/40 text-indigo-400 rounded-lg text-xs font-medium transition"><i class="fa-solid fa-comments mr-1"></i>Interview</button>
+        </div>
+        <div class="flex items-center space-x-2 flex-1 justify-end">
+          <input type="text" id="modalNotes" placeholder="Optional notes (e.g. Master Resume, Ref #)..." class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-3 py-2 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500 flex-1 max-w-[220px]" />
+          <button id="btnQueueApplication" type="button" aria-describedby="modalQueueFeedback" class="px-3 py-2 bg-cyan-800 rounded-lg text-xs">Queue application</button>
+          <button id="btnApplied" onclick="applyWithNotes()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-medium shadow flex items-center gap-1.5 transition whitespace-nowrap">
+            <i class="fa-solid fa-check"></i>
+            <span id="btnAppliedText">Mark Applied</span>
+          </button>
+          <a id="modalApplyLink" href="#" target="_blank" rel="noopener noreferrer" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-medium flex items-center gap-1 shadow whitespace-nowrap">
+            <span>Official Portal</span>
+            <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+          </a>
+        </div>
+        <p id="modalQueueFeedback" class="queue-feedback modal-queue-feedback" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div id="settingsModal" class="hidden" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div id="settingsShell">
+      <div id="settingsHead">
+        <div><h2 id="settingsTitle">Settings</h2><p id="settingsSummary"></p></div>
+        <button id="closeSettings" onclick="closeSettings()" class="app-button" aria-label="Close settings">Close</button>
+      </div>
+      <div id="settingsTools">
+        <input id="settingsSearch" type="search" placeholder="Search settings, e.g. salary, resume, LinkedIn" aria-label="Search settings">
+        <label><input id="settingsOnlyChanged" type="checkbox"> Only show what I changed</label>
+      </div>
+      <div id="settingsStatus" role="status"></div>
+      <div id="settingsLayout">
+        <nav id="settingsNav" aria-label="Settings sections"></nav>
+        <div><div id="settingsGroups"></div><p id="settingsEmpty" hidden>No setting matches. Try a different word, or clear the search.</p></div>
+      </div>
+      <div id="settingsFoot">
+        <button id="settingsSave" class="app-button primary">Save changes</button>
+        <button id="settingsRescore" class="app-button">Rescore postings now</button>
+        <span id="rescoreStatus"></span>
+      </div>
+    </div>
+  </div>
+
+  <div id="sourcesModal" class="hidden fixed inset-0 z-50 bg-slate-950/90 p-3 sm:p-8 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="sourcesTitle">
+    <div class="max-w-5xl mx-auto bg-slate-900 border border-slate-700 rounded-xl p-5 space-y-5">
+      <div class="flex justify-between gap-3"><h2 id="sourcesTitle" class="text-xl font-bold">Sources &amp; watches</h2><button id="closeSources" onclick="closeSources()" class="p-2">Close</button></div>
+      <div id="sourcesConnection" class="hidden rounded-lg border border-amber-700 bg-amber-950/30 p-3 text-sm space-y-2" role="status">
+        <p>Open the live dashboard to manage sources and watches. If it does not load, start JobAgent on this Mac with <code>jobagent serve</code>. Your browser may also need permission to access the local network.</p>
+        <div class="flex flex-wrap gap-4"><a href="http://127.0.0.1:8000/#sources" target="_blank" rel="noopener" class="text-cyan-300 underline">Open live dashboard</a><button onclick="connectSources()" class="text-cyan-300 underline">Retry connection</button></div>
+      </div>
+      <p id="notificationInfo" class="text-sm text-slate-300">Loading notification settings…</p>
+      <p class="text-xs text-slate-400">Watch a company to receive new eligible full-time roles, with no minimum fit score. The first successful scan establishes a baseline; older listings are not emailed. JobAgent searches continuously: every active source is scanned again every 15 minutes (or as soon as a longer scan finishes) while this Mac and JobAgent are running. New eligible roles from watched companies arrive as one digest email per scan.</p>
+      <form id="sourceForm" class="grid sm:grid-cols-2 gap-3 p-4 bg-slate-950 rounded-lg">
+        <label class="text-sm">Company name<input id="sourceName" required maxlength="255" class="block w-full mt-1 bg-slate-800 rounded p-2" placeholder="Company name"></label>
+        <label class="text-sm">Careers or job-board URL <span class="text-slate-400">(optional)</span><input id="sourceURL" type="url" maxlength="2048" class="block w-full mt-1 bg-slate-800 rounded p-2" placeholder="Leave blank to have the agent find it"></label>
+        <label class="text-sm flex items-center gap-2"><input id="sourceWatch" type="checkbox">Watch after adding</label>
+        <button id="addSourceBtn" class="rounded bg-cyan-700 p-2 text-sm">Add with source agent</button>
+        <p class="text-xs text-slate-400 sm:col-span-2">Just the company name is enough: the agent searches the web for its job board (about a minute), verifies it lists jobs, and saves it for future scans.</p>
+      </form>
+      <p id="sourceTaskStatus" role="status" class="text-sm text-cyan-300 whitespace-pre-wrap"></p>
+      <div class="p-4 bg-slate-950 rounded-lg space-y-2">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <h3 class="text-sm font-semibold">Email job alerts</h3>
+          <button id="emailScanBtn" class="rounded bg-slate-800 px-3 py-1.5 text-sm">Check email now</button>
+        </div>
+        <p class="text-xs text-slate-400">Postings in LinkedIn, Handshake, ZipRecruiter and similar alert emails are added automatically. When a link needs a login or is a job-board copy, an agent finds the posting on the employer's own site and a browser reads it. Senders and limits are in Settings.</p>
+        <p id="emailAlertStatus" role="status" class="text-xs text-cyan-300 whitespace-pre-wrap"></p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <input id="sourceFilter" aria-label="Find company source" placeholder="Find company…" class="bg-slate-800 rounded p-2 flex-1 min-w-0">
+        <select id="sourceScope" aria-label="Source status" class="bg-slate-800 rounded p-2"><option value="active">Active sources</option><option value="removed">Removed sources</option><option value="all">All sources</option></select>
+        <button id="auditSourcesBtn" class="bg-slate-800 rounded p-2 text-sm">Verify active sources</button>
+      </div>
+      <label class="flex items-center gap-2 text-sm"><input id="watchAll" type="checkbox">Watch all active sources <span id="watchAllCount" class="text-xs text-slate-400"></span></label>
+      <p id="sourceSummary" class="text-xs text-slate-400"></p>
+      <div id="sourceList" class="space-y-2"></div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none px-4 py-2.5 rounded-lg shadow-xl text-xs font-medium flex items-center gap-2"></div>
+  <script src="data.js"></script>
+  <script src="feedback.js?v=4d57aafa9ca7"></script>
+  <script src="dashboard.js?v=e6e07b9d24cc"></script>
+  <script src="applications.js?v=7d8366a6776a"></script>
+</body>
+</html>

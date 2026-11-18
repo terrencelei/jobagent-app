@@ -1,5 +1,5 @@
 """Durable source configuration shared by discovery, the dashboard and source agents."""
-import fcntl
+from ..filelock import lock_exclusive
 import hashlib
 import json
 import os
@@ -61,7 +61,7 @@ def update_overrides(*, added=None, disabled=(), enabled=()):
     root = get_settings().config_dir
     root.mkdir(parents=True, exist_ok=True)
     with (root / '.sources.lock').open('a') as lock:
-        fcntl.flock(lock, fcntl.LOCK_EX)
+        lock_exclusive(lock)
         data = read_overrides() or {}
         entries = {e['key']:e for e in data.get('added', [])}
         if added:

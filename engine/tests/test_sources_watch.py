@@ -27,6 +27,17 @@ def db(monkeypatch, tmp_path):
         yield session
         session.commit()
     monkeypatch.setattr(agent,'get_db_session',session_scope)
+    # Source tasks run inline: a background task outliving the test would use this database after teardown.
+    from concurrent.futures import Future
+    class Inline:
+        def submit(self, fn, *args, **kwargs):
+            future = Future()
+            try:
+                future.set_result(fn(*args, **kwargs))
+            except Exception as error:
+                future.set_exception(error)
+            return future
+    monkeypatch.setattr(agent, '_executor', Inline())
     monkeypatch.setattr(server,'get_db_session',session_scope)
     monkeypatch.setattr(catalog,'get_settings',lambda:SimpleNamespace(config_dir=tmp_path))
     yield session
