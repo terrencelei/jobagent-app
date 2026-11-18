@@ -88,7 +88,8 @@ def build_tracks(roles, majors, industries) -> dict:
     major = majors[0] if majors else ''
     title_patterns = [_phrase_pattern(r) for r in roles]
     qualifiers = _words(roles)
-    label = ' & '.join(roles[:2]) + (' +' if len(roles) > 2 else '') if roles else 'All roles'
+    # The dashboard's search menu shows this: the major reads better than a list of titles.
+    label = major or (roles[0] if roles else 'All roles')
     spec = {
         'label': label,
         'major': major,
